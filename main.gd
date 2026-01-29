@@ -21,7 +21,9 @@ var global_environment_depth_enabled: bool = true
 @onready var environment_depth_node = $XROrigin3D/XRCamera3D/OpenXRMetaEnvironmentDepth
 @onready var depth_testing_mesh: MeshInstance3D = $XROrigin3D/RightHand/DepthTestingMesh
 
-const SPATIAL_ANCHORS_FILE = "user://openxr_fb_spatial_anchors.json"
+#const SPATIAL_ANCHORS_FILE = "user://openxr_fb_spatial_anchors.json"
+
+const SPATIAL_ANCHORS_FILE = "res://openxr_fb_spatial_anchors.json"
 
 var _setup := false
 
@@ -195,7 +197,6 @@ func _on_right_hand_button_pressed(name: String) -> void:
 				if anchor_parent is XRAnchor3D:
 					spatial_anchor_manager.untrack_anchor(anchor_parent.tracker)
 					# decrease the imageId because we removed that image
-					imageId-=1
 			else:
 				var anchor_transform := Transform3D()
 				anchor_transform.origin = right_hand_pointer_raycast.get_collision_point()
@@ -209,11 +210,11 @@ func _on_right_hand_button_pressed(name: String) -> void:
 					anchor_transform.basis = Basis.looking_at(right_hand_pointer_raycast.get_collision_normal())
 
 				spatial_anchor_manager.create_anchor(anchor_transform, {scale=1,imageid=imageId})
-				imageId+=1
+				
 	elif name == "ax_button":
 		# remove the previous anchor
 		var anchor_parent: XRAnchor3D = selected_spatial_anchor_node.get_parent()
-		var prev_position = anchor_parent.origin
+		var prev_position = anchor_parent.global_transform.origin
 		var prev_basis = anchor_parent.basis
 		if anchor_parent is XRAnchor3D:
 			spatial_anchor_manager.untrack_anchor(anchor_parent.tracker)
@@ -224,7 +225,7 @@ func _on_right_hand_button_pressed(name: String) -> void:
 		
 		
 		spatial_anchor_manager.untrack_anchor(anchor_parent.tracker)
-		spatial_anchor_manager.create_anchor(anchor_transform,{scale=selected_spatial_anchor_node.imageScale,imageid=selected_spatial_anchor_node.imageid})
+		spatial_anchor_manager.create_anchor(anchor_transform,{scale=selected_spatial_anchor_node.imageScale,imageid=selected_spatial_anchor_node.imageId})
 		
 	elif name == "by_button":
 		global_environment_depth_enabled = not global_environment_depth_enabled
@@ -247,5 +248,6 @@ func _on_scene_manager_scene_data_missing() -> void:
 
 func _on_right_hand_input_vector_2_changed(name: String, value: Vector2) -> void:
 	print(value)
-	selected_spatial_anchor_node.adjustScale(value)
+	if selected_spatial_anchor_node:
+		selected_spatial_anchor_node.adjustScale(value)
 	pass # Replace with function body.
