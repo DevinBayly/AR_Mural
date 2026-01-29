@@ -1,30 +1,37 @@
 extends Area3D
 
-@onready var mesh_instance: MeshInstance3D = $MeshInstance3D
-
-var color: Color
+var prevInputScale=0
+var moderation = .1
+var imageScale: float
+var imageId: int
 var selected := false
-
+# load all the different elements
+var agave_frames = preload("res://agave_sprite.tres")
+var pink_cactus_frames = preload("res://pink_cactus_sprites.tres")
+@onready var animSprit = $AnimatedSprite3D
+	
 
 func setup_scene(spatial_entity: OpenXRFbSpatialEntity) -> void:
+	var sprites_list = [agave_frames,pink_cactus_frames]
 	var data: Dictionary = spatial_entity.custom_data
-
-	color = Color(data.get("color", "#FFFFFF"))
-	var material: StandardMaterial3D = StandardMaterial3D.new()
-	if mesh_instance:
-		material= mesh_instance.get_surface_override_material(0)
-		material.albedo_color = color
-		mesh_instance.set_surface_override_material(0, material)
-
-	spatial_entity.save_to_storage(OpenXRFbSpatialEntity.STORAGE_CLOUD)
+	imageScale = data.get("scale",1)
+	imageId = data.get("imageid",0)
+	
+	print(agave_frames)
+	animSprit.sprite_frames = sprites_list[imageId]
+	animSprit.scale = Vector2(imageScale,imageScale)
+	animSprit.play()
+	
+func adjustScale(newScale):
+	var delta = (newScale.y - prevInputScale)*moderation
+	prevInputScale = newScale.y
+	# comes in as a vec2 and we just want to increment based on a scalar of the input 
+	imageScale += delta
+	animSprit.scale += Vector2(delta,delta)
+	# unclear whether this is actually required
+	#spatial_entity.save_to_storage(OpenXRFbSpatialEntity.STORAGE_CLOUD)
 
 
 func set_selected(p_selected: bool) -> void:
 	selected = p_selected
-	if mesh_instance:
-		var material: StandardMaterial3D = mesh_instance.get_surface_override_material(0)
-		if selected:
-			material.albedo_color = Color(0.5, 0.5, 0.5)
-		else:
-			material.albedo_color = color
-		mesh_instance.set_surface_override_material(0, material)
+	

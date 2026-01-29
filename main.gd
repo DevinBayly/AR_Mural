@@ -185,6 +185,7 @@ func _on_left_hand_button_pressed(name):
 	elif name == "menu_button":
 		scene_manager.request_scene_capture()
 
+var imageId=0
 
 func _on_right_hand_button_pressed(name: String) -> void:
 	if name == "trigger_click" and right_hand_pointer.visible:
@@ -193,6 +194,8 @@ func _on_right_hand_button_pressed(name: String) -> void:
 				var anchor_parent = selected_spatial_anchor_node.get_parent()
 				if anchor_parent is XRAnchor3D:
 					spatial_anchor_manager.untrack_anchor(anchor_parent.tracker)
+					# decrease the imageId because we removed that image
+					imageId-=1
 			else:
 				var anchor_transform := Transform3D()
 				anchor_transform.origin = right_hand_pointer_raycast.get_collision_point()
@@ -205,10 +208,24 @@ func _on_right_hand_button_pressed(name: String) -> void:
 				else:
 					anchor_transform.basis = Basis.looking_at(right_hand_pointer_raycast.get_collision_normal())
 
-				spatial_anchor_manager.create_anchor(anchor_transform, {color = COLORS[randi() % COLORS.size()]})
+				spatial_anchor_manager.create_anchor(anchor_transform, {scale=1,imageid=imageId})
+				imageId+=1
 	elif name == "ax_button":
-		var anchor_transform := right_hand.transform
-		spatial_anchor_manager.create_anchor(anchor_transform, {color = COLORS[randi() % COLORS.size()]})
+		# remove the previous anchor
+		var anchor_parent: XRAnchor3D = selected_spatial_anchor_node.get_parent()
+		var prev_position = anchor_parent.origin
+		var prev_basis = anchor_parent.basis
+		if anchor_parent is XRAnchor3D:
+			spatial_anchor_manager.untrack_anchor(anchor_parent.tracker)
+		# bake the scale into the anchor
+		var anchor_transform = Transform3D()
+		anchor_transform.origin =  prev_position
+		anchor_transform.basis = prev_basis
+		
+		
+		spatial_anchor_manager.untrack_anchor(anchor_parent.tracker)
+		spatial_anchor_manager.create_anchor(anchor_transform,{scale=selected_spatial_anchor_node.imageScale,imageid=selected_spatial_anchor_node.imageid})
+		
 	elif name == "by_button":
 		global_environment_depth_enabled = not global_environment_depth_enabled
 
@@ -226,3 +243,9 @@ func _on_scene_manager_scene_capture_completed(success: bool) -> void:
 
 func _on_scene_manager_scene_data_missing() -> void:
 	scene_manager.request_scene_capture()
+
+
+func _on_right_hand_input_vector_2_changed(name: String, value: Vector2) -> void:
+	print(value)
+	selected_spatial_anchor_node.adjustScale(value)
+	pass # Replace with function body.
