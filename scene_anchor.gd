@@ -10,7 +10,7 @@ var mesh_instance: MeshInstance3D
 
 func setup_scene(entity: OpenXRFbSpatialEntity) -> void:
 	var semantic_labels: PackedStringArray = entity.get_semantic_labels()
-
+	
 	label.text = ", ".join(Array(semantic_labels).map(func(x): return x.capitalize()))
 
 	var collision_shape = entity.create_collision_shape()

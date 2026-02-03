@@ -1,7 +1,4 @@
-{"0f9d9bc3-8023-3ae1-c7b5-e5735b8ef8e9":{"imageid":3,"priority":3,"scale":1.0},
-"1e012b2f-edec-60f4-9056-b3be1242149b":{"imageid":6,"priority":2,"scale":1.0},
-"308c524c-a9c8-173f-6c43-24fed0fb6d84":{"imageid":7,"priority":3,"scale":1.0},
-"38b31b1b-1ebc-eb42-56b9-eec234560cf9":{"imageid":2,"priority":1,"scale":1.0},
+{"0f9d9bc3-8023-3ae1-c7b5-e5735b8ef8e9":{"imageid":3,"priority":3,"scale":1.0},"1e012b2f-edec-60f4-9056-b3be1242149b":{"imageid":6,"priority":2,"scale":1.0},"308c524c-a9c8-173f-6c43-24fed0fb6d84":{"imageid":7,"priority":3,"scale":.3},"38b31b1b-1ebc-eb42-56b9-eec234560cf9":{"imageid":2,"priority":1,"scale":1.0},
 "549ac5e8-28e9-bd79-324d-78f4cf4c6b6b":{"imageid":5,"priority":0,"scale":1.0},
 "67f2ba32-07cf-9108-2364-e04858e2a7cf":{"imageid":1,"priority":0,"scale":1.2518692612648},
 "7f26b2fd-8bfd-c70a-3dfc-d456d356f6f8":{"imageid":4,"priority":0,"scale":1.0},

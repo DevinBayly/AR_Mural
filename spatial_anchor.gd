@@ -26,10 +26,14 @@ func setup_scene(spatial_entity: OpenXRFbSpatialEntity) -> void:
 	imageScale = data.get("scale",1)
 	imageId = data.get("imageid",0)
 	spritepriority = data.get("priority",0)
+	if imageId ==7:
+		$AnimatedSprite3D.queue_free()
+	else:
+		$Sprite3D.queue_free()
+		animSprit.sprite_frames = sprites_list[imageId]
+		animSprit.scale = Vector3(imageScale,imageScale,imageScale)
+		animSprit.play()
 	
-	animSprit.sprite_frames = sprites_list[imageId]
-	animSprit.scale = Vector3(imageScale,imageScale,imageScale)
-	animSprit.play()
 var scaledelta=0
 func adjustScale(newScale):
 	if abs(newScale.y) > .1:
@@ -40,10 +44,17 @@ func adjustScale(newScale):
 var timeout =.1
 func _process(delta: float) -> void:	
 	if timeout<0:
+		if imageId ==7:
+			imageScale += scaledelta
+			$Sprite3D.scale += Vector3(scaledelta,scaledelta,scaledelta)
+			timeout=.1
+		else:
+			imageScale += scaledelta
+			animSprit.scale += Vector3(scaledelta,scaledelta,scaledelta)
+			timeout=.1
+			
 		# comes in as a vec2 and we just want to increment based on a scalar of the input 
-		imageScale += scaledelta
-		animSprit.scale += Vector3(scaledelta,scaledelta,scaledelta)
-		timeout=.1
+		
 	# unclear whether this is actually required
 	#spatial_entity.save_to_storage(OpenXRFbSpatialEntity.STORAGE_CLOUD)
 	timeout-=delta
