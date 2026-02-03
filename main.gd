@@ -82,7 +82,13 @@ func load_spatial_anchors_from_file() -> void:
 	var anchor_data: Dictionary = json.data
 	if anchor_data.size() > 0:
 		spatial_anchor_manager.load_anchors(anchor_data.keys(), anchor_data, OpenXRFbSpatialEntity.STORAGE_LOCAL, true)
-
+		#var lim = 8
+		#for anchor_key in anchor_data:
+			#var data =anchor_data[anchor_key]
+			#spatial_anchor_manager.load_anchor(anchor_key,data,OpenXRFbSpatialEntity.STORAGE_LOCAL)
+			#lim-=1
+			#if lim <0:
+				#break
 
 func save_spatial_anchors_to_file() -> void:
 	var file := FileAccess.open(SPATIAL_ANCHORS_FILE, FileAccess.WRITE)
@@ -188,7 +194,7 @@ func _on_left_hand_button_pressed(name):
 		scene_manager.request_scene_capture()
 
 var imageId=0
-
+var imageScale = 1
 func _on_right_hand_button_pressed(name: String) -> void:
 	if name == "trigger_click" and right_hand_pointer.visible:
 		if right_hand_pointer_raycast.is_colliding():
@@ -196,6 +202,9 @@ func _on_right_hand_button_pressed(name: String) -> void:
 				var anchor_parent = selected_spatial_anchor_node.get_parent()
 				if anchor_parent is XRAnchor3D:
 					spatial_anchor_manager.untrack_anchor(anchor_parent.tracker)
+					# take on the imageId and scale from the removed element to make reposition easier
+					imageId = selected_spatial_anchor_node.imageId
+					imageScale = selected_spatial_anchor_node.imageScale
 					# decrease the imageId because we removed that image
 			else:
 				var anchor_transform := Transform3D()
@@ -209,7 +218,8 @@ func _on_right_hand_button_pressed(name: String) -> void:
 				else:
 					anchor_transform.basis = Basis.looking_at(right_hand_pointer_raycast.get_collision_normal())
 
-				spatial_anchor_manager.create_anchor(anchor_transform, {scale=1,imageid=imageId})
+				spatial_anchor_manager.create_anchor(anchor_transform, {scale=imageScale,imageid=imageId})
+				imageId+=1
 				
 	elif name == "ax_button":
 		# remove the previous anchor
@@ -247,7 +257,6 @@ func _on_scene_manager_scene_data_missing() -> void:
 
 
 func _on_right_hand_input_vector_2_changed(name: String, value: Vector2) -> void:
-	print(value)
 	if selected_spatial_anchor_node:
 		selected_spatial_anchor_node.adjustScale(value)
 	pass # Replace with function body.

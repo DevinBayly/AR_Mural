@@ -17,6 +17,5 @@ shape = SubResource("CylinderShape3D_d2ows")
 
 [node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
 flip_h = true
-modulate = Color(1, 1, 1, 0.5686275)
 pixel_size = 0.004
 autoplay = "default"
