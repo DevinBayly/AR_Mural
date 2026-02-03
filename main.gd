@@ -218,7 +218,7 @@ func _on_right_hand_button_pressed(name: String) -> void:
 				else:
 					anchor_transform.basis = Basis.looking_at(right_hand_pointer_raycast.get_collision_normal())
 
-				spatial_anchor_manager.create_anchor(anchor_transform, {scale=imageScale,imageid=imageId})
+				spatial_anchor_manager.create_anchor(anchor_transform, {scale=imageScale,priority=0,imageid=imageId})
 				imageId+=1
 				
 	elif name == "ax_button":
@@ -235,7 +235,8 @@ func _on_right_hand_button_pressed(name: String) -> void:
 		
 		
 		spatial_anchor_manager.untrack_anchor(anchor_parent.tracker)
-		spatial_anchor_manager.create_anchor(anchor_transform,{scale=selected_spatial_anchor_node.imageScale,imageid=selected_spatial_anchor_node.imageId})
+		spatial_anchor_manager.create_anchor(anchor_transform,{scale=selected_spatial_anchor_node.imageScale,priority=selected_spatial_anchor_node.spritepriority,
+		imageid=selected_spatial_anchor_node.imageId})
 		
 	elif name == "by_button":
 		global_environment_depth_enabled = not global_environment_depth_enabled

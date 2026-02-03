@@ -4,6 +4,7 @@ var prevInputScale=0
 var moderation = .1
 var imageScale: float
 var imageId: int
+var spritepriority =0
 var selected := false
 # load all the different elements
 var center = preload("res://center_sprites.tres")
@@ -24,6 +25,7 @@ func setup_scene(spatial_entity: OpenXRFbSpatialEntity) -> void:
 	var data: Dictionary = spatial_entity.custom_data
 	imageScale = data.get("scale",1)
 	imageId = data.get("imageid",0)
+	spritepriority = data.get("priority",0)
 	
 	animSprit.sprite_frames = sprites_list[imageId]
 	animSprit.scale = Vector3(imageScale,imageScale,imageScale)
