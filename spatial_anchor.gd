@@ -52,7 +52,8 @@ func _process(delta: float) -> void:
 			imageScale += scaledelta
 			animSprit.scale += Vector3(scaledelta,scaledelta,scaledelta)
 			timeout=.1
-			
+			if animSprit.is_playing() == false:
+				animSprit.play()
 		# comes in as a vec2 and we just want to increment based on a scalar of the input 
 		
 	# unclear whether this is actually required
