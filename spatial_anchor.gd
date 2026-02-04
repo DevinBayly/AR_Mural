@@ -1,7 +1,7 @@
 extends Area3D
 
 var prevInputScale=0
-var moderation = .1
+var moderation = .05
 var imageScale: float
 var imageId: int
 var spritepriority =0
