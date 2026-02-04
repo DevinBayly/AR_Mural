@@ -187,9 +187,11 @@ func _physics_process(_delta: float) -> void:
 
 func _on_left_hand_button_pressed(name):
 	if name == "ax_button":
-		display_scene_and_spatial_anchors(not scene_and_spatial_anchors_displayed)
+		#display_scene_and_spatial_anchors(not scene_and_spatial_anchors_displayed)
+		load_spatial_anchors_from_file()
 	elif name == "by_button":
 		enable_passthrough(not passthrough_enabled)
+		
 	elif name == "menu_button":
 		scene_manager.request_scene_capture()
 
