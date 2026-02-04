@@ -44,7 +44,7 @@ func adjustScale(newScale):
 var timeout =.1
 func _process(delta: float) -> void:	
 	if timeout<0:
-		if imageId ==7:
+		if imageId ==8:
 			imageScale += scaledelta
 			$Sprite3D.scale += Vector3(scaledelta,scaledelta,scaledelta)
 			timeout=.1
