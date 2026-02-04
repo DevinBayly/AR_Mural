@@ -26,7 +26,7 @@ func setup_scene(spatial_entity: OpenXRFbSpatialEntity) -> void:
 	imageScale = data.get("scale",1)
 	imageId = data.get("imageid",0)
 	spritepriority = data.get("priority",0)
-	if imageId ==7:
+	if imageId ==8:
 		$AnimatedSprite3D.queue_free()
 	else:
 		$Sprite3D.queue_free()
