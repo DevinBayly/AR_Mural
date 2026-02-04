@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://dsfd7xrm6o50p"]
+[gd_scene load_steps=5 format=3 uid="uid://dsfd7xrm6o50p"]
 
 [ext_resource type="Script" uid="uid://cx4le35kmk2n2" path="res://spatial_anchor.gd" id="1_dengx"]
+[ext_resource type="Texture2D" uid="uid://kp4rwi84h64b" path="res://background.tres" id="2_0sc5c"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_0sc5c"]
 
@@ -18,6 +19,7 @@ autoplay = "default"
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
 render_priority = -1
+texture = ExtResource("2_0sc5c")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(0.25, 0, 0, 0, -1.092785e-08, 0.25, 0, -0.25, -1.092785e-08, 0, 0, -0.025)

@@ -97,6 +97,7 @@ collide_with_areas = true
 
 [node name="OpenXRFbSceneManager" type="OpenXRFbSceneManager" parent="XROrigin3D"]
 default_scene = ExtResource("3_lquwl")
+visible = false
 scenes/global_mesh = ExtResource("4_7mycd")
 
 [node name="OpenXRFbSpatialAnchorManager" type="OpenXRFbSpatialAnchorManager" parent="XROrigin3D"]
