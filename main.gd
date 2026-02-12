@@ -168,6 +168,7 @@ func _physics_process(_delta: float) -> void:
 			var collider: CollisionObject3D = right_hand_pointer_raycast.get_collider()
 			if collider and collider.get_collision_layer_value(3):
 				selected_spatial_anchor_node = collider
+				selected_spatial_anchor_node.turnOnAnimation()
 			else:
 				selected_spatial_anchor_node = null
 		else:

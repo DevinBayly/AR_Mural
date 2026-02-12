@@ -15,14 +15,17 @@ var man = preload("res://man_sprites.tres")
 var roundcact = preload("res://round_cactus_sprites.tres")
 var woman = preload("res://woman_sprites.tres")
 var spikes = preload("res://spikey_sprites.tres")
+var pulse = preload("res://pulse_icon.tres")
 
 
 @onready var animSprit = $AnimatedSprite3D
 	
-
+var triggered = false
+var sprites_list = [center,man,woman,spikes,roundcact,pink_cactus_frames,agave_frames,ocotillo]
 func setup_scene(spatial_entity: OpenXRFbSpatialEntity) -> void:
-	var sprites_list = [center,man,woman,spikes,roundcact,pink_cactus_frames,agave_frames,ocotillo]
+	
 	var data: Dictionary = spatial_entity.custom_data
+	
 	imageScale = data.get("scale",1)
 	imageId = data.get("imageid",0)
 	spritepriority = data.get("priority",0)
@@ -30,8 +33,8 @@ func setup_scene(spatial_entity: OpenXRFbSpatialEntity) -> void:
 		$AnimatedSprite3D.queue_free()
 	else:
 		$Sprite3D.queue_free()
-		animSprit.sprite_frames = sprites_list[imageId]
-		animSprit.scale = Vector3(imageScale,imageScale,imageScale)
+		animSprit.sprite_frames = pulse
+		
 		animSprit.play()
 	
 var scaledelta=0
@@ -40,7 +43,14 @@ func adjustScale(newScale):
 		scaledelta = newScale.y*moderation
 	else:
 		scaledelta =0
-		
+
+func turnOnAnimation():
+	if triggered ==false:
+		animSprit.sprite_frames = sprites_list[imageId]
+		animSprit.scale = Vector3(imageScale,imageScale,imageScale)
+		animSprit.play()
+	triggered=true
+
 var timeout =.1
 func _process(delta: float) -> void:	
 	if timeout<0:
