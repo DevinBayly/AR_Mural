@@ -34,6 +34,7 @@ func setup_scene(spatial_entity: OpenXRFbSpatialEntity) -> void:
 	else:
 		$Sprite3D.queue_free()
 		animSprit.sprite_frames = pulse
+		animSprit.render_priority = 4
 		
 		animSprit.play()
 	
@@ -45,9 +46,13 @@ func adjustScale(newScale):
 		scaledelta =0
 
 func turnOnAnimation():
+	
 	if triggered ==false:
+		if imageId == 8:
+			return
 		animSprit.sprite_frames = sprites_list[imageId]
 		animSprit.scale = Vector3(imageScale,imageScale,imageScale)
+		animSprit.render_priority = spritepriority
 		animSprit.play()
 	triggered=true
 

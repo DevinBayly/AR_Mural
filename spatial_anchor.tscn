@@ -1,11 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://dsfd7xrm6o50p"]
+[gd_scene load_steps=6 format=3 uid="uid://dsfd7xrm6o50p"]
 
 [ext_resource type="Script" uid="uid://cx4le35kmk2n2" path="res://spatial_anchor.gd" id="1_dengx"]
 [ext_resource type="Texture2D" uid="uid://kp4rwi84h64b" path="res://background.tres" id="2_0sc5c"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_0sc5c"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0sc5c"]
+
 [sub_resource type="BoxMesh" id="BoxMesh_lw2g4"]
+material = SubResource("StandardMaterial3D_0sc5c")
 
 [node name="SpatialAnchor" type="Area3D"]
 collision_layer = 4
@@ -27,4 +30,5 @@ shape = SubResource("BoxShape3D_0sc5c")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+visible = false
 mesh = SubResource("BoxMesh_lw2g4")
