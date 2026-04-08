@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://dcrdk3n1uqd3k"]
+
+[ext_resource type="PackedScene" uid="uid://v75csjjxgtpx" path="res://copied_results/example_panel.tscn" id="1_7nc78"]
+[ext_resource type="Script" uid="uid://bjic24vdy60il" path="res://composition_test_alone.gd" id="1_7ybs5"]
+[ext_resource type="Script" uid="uid://xf54om6eut8k" path="res://open_xr_composition_layer_quad.gd" id="2_7ybs5"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jka67"]
+albedo_color = Color(1, 0.00999999, 0.00999999, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_klhey"]
+material = SubResource("StandardMaterial3D_jka67")
+radius = 0.025
+height = 0.05
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_7ybs5"]
+
+[sub_resource type="Sky" id="Sky_klhey"]
+sky_material = SubResource("ProceduralSkyMaterial_7ybs5")
+
+[sub_resource type="Environment" id="Environment_msx13"]
+background_mode = 2
+sky = SubResource("Sky_klhey")
+
+[node name="composition_test_alone" type="Node3D" unique_id=196985364]
+script = ExtResource("1_7ybs5")
+
+[node name="QuadViewport" type="SubViewport" parent="." unique_id=1825714200]
+disable_3d = true
+gui_embed_subwindows = true
+render_target_update_mode = 4
+
+[node name="ExamplePanel" parent="QuadViewport" unique_id=1873310519 instance=ExtResource("1_7nc78")]
+display_string = "testing"
+
+[node name="XROrigin3D" type="XROrigin3D" parent="." unique_id=204514015]
+
+[node name="OpenXRCompositionLayerQuad" type="OpenXRCompositionLayerQuad" parent="XROrigin3D" unique_id=1345212175 node_paths=PackedStringArray("layer_viewport", "controller") groups=["composition_layer"]]
+transform = Transform3D(1, 0, -2.98023e-08, 0, 0.945712, -0.325007, 0, 0.325007, 0.945712, -5.96046e-08, 1.568, -2.37176)
+layer_viewport = NodePath("../../QuadViewport")
+sort_order = -1
+enable_hole_punch = true
+quad_size = Vector2(1.5, 1.5)
+script = ExtResource("2_7ybs5")
+controller = NodePath("../XRController3D")
+
+[node name="Pointer" type="MeshInstance3D" parent="XROrigin3D/OpenXRCompositionLayerQuad" unique_id=1762764396]
+mesh = SubResource("SphereMesh_klhey")
+
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D" unique_id=1012223709]
+
+[node name="XRController3D" type="XRController3D" parent="XROrigin3D" unique_id=205978590]
+tracker = &"right_hand"
+show_when_tracked = true
+
+[node name="RightControllerFbRenderModel" type="OpenXRFbRenderModel" parent="XROrigin3D/XRController3D" unique_id=1433743617]
+unique_name_in_owner = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=582439564]
+environment = SubResource("Environment_msx13")
