@@ -39,13 +39,15 @@ func _process(_delta):
 
 		if intersect != NO_INTERSECTION:
 			var is_pressed : bool = controller.is_button_pressed(button_action)
-
+			%Control.update_pointer(intersect)
+			print("drew magenta marker")
 			# Place our pointer where we're pointing
 			var pos : Vector3 = _intersect_to_global_pos(intersect)
 			$Pointer.visible = true
 			$Pointer.global_position = pos
 			if was_intersect != NO_INTERSECTION and intersect != was_intersect:
 				# Pointer moved
+				#print("pointer moved")
 				var event : InputEventMouseMotion = InputEventMouseMotion.new()
 				var from : Vector2 = _intersect_to_viewport_pos(was_intersect)
 				var to : Vector2 = _intersect_to_viewport_pos(intersect)
@@ -56,6 +58,7 @@ func _process(_delta):
 				layer_viewport.push_input(event)
 			if not is_pressed and was_pressed:
 				# Button was let go?
+				#print("button was let go")
 				var event : InputEventMouseButton = InputEventMouseButton.new()
 				event.button_index = 1
 				event.pressed = false
@@ -63,6 +66,7 @@ func _process(_delta):
 				layer_viewport.push_input(event)
 			elif is_pressed and not was_pressed:
 				# Button was pressed?
+				#print("button got pressend")
 				var event : InputEventMouseButton = InputEventMouseButton.new()
 				event.button_index = 1
 				event.button_mask = MOUSE_BUTTON_MASK_LEFT
@@ -71,6 +75,7 @@ func _process(_delta):
 				layer_viewport.push_input(event)
 			was_pressed = is_pressed
 			was_intersect = intersect
+			
 		else:
 			was_pressed = false
 			was_intersect = NO_INTERSECTION
