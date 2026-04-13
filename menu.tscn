@@ -1,0 +1,94 @@
+[gd_scene format=3 uid="uid://cfbc7fxw6gjqr"]
+
+[ext_resource type="Script" uid="uid://bu2j6asrssatv" path="res://menu.gd" id="1_lti8b"]
+
+[node name="Control" type="Control" unique_id=942888997]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_lti8b")
+
+[node name="BoxContainer" type="VBoxContainer" parent="." unique_id=450874613]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 0
+offset_right = 174.0
+offset_bottom = 50.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="BoxContainer" unique_id=2009827307]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="BoxContainer/HBoxContainer" unique_id=1955612390]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "scale"
+
+[node name="HSlider" type="HSlider" parent="BoxContainer/HBoxContainer" unique_id=690900059]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 200.0
+value = 100.0
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="BoxContainer" unique_id=1382563643]
+layout_mode = 2
+
+[node name="order" type="Label" parent="BoxContainer/HBoxContainer2" unique_id=253247201]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "order"
+
+[node name="orderSlider" type="HSlider" parent="BoxContainer/HBoxContainer2" unique_id=124121200]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 6.0
+rounded = true
+tick_count = 6
+ticks_on_borders = true
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="BoxContainer" unique_id=2101148811]
+layout_mode = 2
+
+[node name="background" type="Label" parent="BoxContainer/HBoxContainer3" unique_id=284309832]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "Place 
+background"
+
+[node name="CheckBox" type="CheckBox" parent="BoxContainer/HBoxContainer3" unique_id=1120074796]
+layout_mode = 2
+
+[node name="Animations" type="GridContainer" parent="." unique_id=236153862]
+layout_mode = 0
+offset_top = 151.0
+offset_right = 174.0
+offset_bottom = 217.0
+columns = 3
+
+[node name="Button" type="Button" parent="Animations" unique_id=425273462]
+layout_mode = 2
+text = "Center"
+
+[node name="Button2" type="Button" parent="Animations" unique_id=1545104510]
+layout_mode = 2
+text = "spikes"
+
+[node name="Button3" type="Button" parent="Animations" unique_id=891884240]
+layout_mode = 2
+text = "man"
+
+[node name="Button4" type="Button" parent="Animations" unique_id=184262416]
+layout_mode = 2
+text = "woman"
+
+[node name="Button5" type="Button" parent="Animations" unique_id=241671851]
+layout_mode = 2
+text = "pink
+"
+
+[connection signal="drag_ended" from="BoxContainer/HBoxContainer/HSlider" to="." method="_on_scale_slider_drag_ended"]
+[connection signal="drag_ended" from="BoxContainer/HBoxContainer2/orderSlider" to="." method="_on_sort_order_slider_drag_ended"]

@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://dcrdk3n1uqd3k"]
 
-[ext_resource type="PackedScene" uid="uid://v75csjjxgtpx" path="res://copied_results/example_panel.tscn" id="1_7nc78"]
 [ext_resource type="Script" uid="uid://bjic24vdy60il" path="res://composition_test_alone.gd" id="1_7ybs5"]
 [ext_resource type="Script" uid="uid://xf54om6eut8k" path="res://open_xr_composition_layer_quad.gd" id="2_7ybs5"]
+[ext_resource type="PackedScene" uid="uid://cfbc7fxw6gjqr" path="res://menu.tscn" id="2_klhey"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jka67"]
 albedo_color = Color(1, 0.00999999, 0.00999999, 1)
@@ -29,8 +29,7 @@ disable_3d = true
 gui_embed_subwindows = true
 render_target_update_mode = 4
 
-[node name="ExamplePanel" parent="QuadViewport" unique_id=1873310519 instance=ExtResource("1_7nc78")]
-display_string = "testing"
+[node name="Control" parent="QuadViewport" unique_id=942888997 instance=ExtResource("2_klhey")]
 
 [node name="XROrigin3D" type="XROrigin3D" parent="." unique_id=204514015]
 

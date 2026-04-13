@@ -1,9 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://cqsodpswgup8w"]
+[gd_scene format=3 uid="uid://cqsodpswgup8w"]
 
 [ext_resource type="Script" uid="uid://cfxf4wpwr3y2p" path="res://main.gd" id="1_fsva1"]
 [ext_resource type="PackedScene" uid="uid://bcjp8kcgde4cs" path="res://scene_anchor.tscn" id="3_lquwl"]
 [ext_resource type="PackedScene" uid="uid://bwo5nq0clfe3c" path="res://scene_global_mesh.tscn" id="4_7mycd"]
+[ext_resource type="Script" uid="uid://xf54om6eut8k" path="res://open_xr_composition_layer_quad.gd" id="5_7mycd"]
 [ext_resource type="PackedScene" uid="uid://dsfd7xrm6o50p" path="res://spatial_anchor.tscn" id="5_g7mio"]
+[ext_resource type="PackedScene" uid="uid://cfbc7fxw6gjqr" path="res://menu.tscn" id="6_7mycd"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_0x6cv"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -24,31 +26,39 @@ size = Vector3(0.01, 0.01, 5)
 radius = 0.01
 height = 0.02
 
-[node name="Main" type="Node3D"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jka67"]
+albedo_color = Color(1, 0.00999999, 0.00999999, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_272bh"]
+material = SubResource("StandardMaterial3D_jka67")
+radius = 0.025
+height = 0.05
+
+[node name="Main" type="Node3D" unique_id=1726985418]
 script = ExtResource("1_fsva1")
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=353867311]
 environment = SubResource("Environment_m0xew")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=248692662]
 transform = Transform3D(0.677077, -0.692092, 0.25015, 0.264251, 0.545897, 0.79509, -0.686831, -0.472235, 0.552501, 0, 0, 0)
 
-[node name="XROrigin3D" type="XROrigin3D" parent="."]
+[node name="XROrigin3D" type="XROrigin3D" parent="." unique_id=656410265]
 
-[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D" unique_id=2142966446]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.352791, 0)
 
-[node name="OpenXRMetaEnvironmentDepth" type="OpenXRMetaEnvironmentDepth" parent="XROrigin3D/XRCamera3D"]
+[node name="OpenXRMetaEnvironmentDepth" type="OpenXRMetaEnvironmentDepth" parent="XROrigin3D/XRCamera3D" unique_id=823393592]
 
-[node name="LeftHand" type="XRController3D" parent="XROrigin3D"]
+[node name="LeftHand" type="XRController3D" parent="XROrigin3D" unique_id=1372138877]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.460909, 0.388594, -0.241118)
 tracker = &"left_hand"
 pose = &"grip"
 
-[node name="LeftControllerFbRenderModel" type="OpenXRFbRenderModel" parent="XROrigin3D/LeftHand"]
+[node name="LeftControllerFbRenderModel" type="OpenXRFbRenderModel" parent="XROrigin3D/LeftHand" unique_id=23548982]
 unique_name_in_owner = true
 
-[node name="Label3D" type="Label3D" parent="XROrigin3D/LeftHand"]
+[node name="Label3D" type="Label3D" parent="XROrigin3D/LeftHand" unique_id=497793804]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -0.124379, -0.185838)
 visible = false
 pixel_size = 0.001
@@ -56,16 +66,16 @@ text = "[Y] Toggle Passthrough
 [X] Toggle Edit Anchors
 [Menu] Capture Scene"
 
-[node name="RightHand" type="XRController3D" parent="XROrigin3D"]
+[node name="RightHand" type="XRController3D" parent="XROrigin3D" unique_id=1512800066]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.478861, 0.468292, -0.241097)
 tracker = &"right_hand"
 pose = &"grip"
 
-[node name="RightControllerFbRenderModel" type="OpenXRFbRenderModel" parent="XROrigin3D/RightHand"]
+[node name="RightControllerFbRenderModel" type="OpenXRFbRenderModel" parent="XROrigin3D/RightHand" unique_id=916926501]
 render_model_type = 1
 unique_name_in_owner = true
 
-[node name="Label3D" type="Label3D" parent="XROrigin3D/RightHand"]
+[node name="Label3D" type="Label3D" parent="XROrigin3D/RightHand" unique_id=815438622]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -0.124379, -0.185838)
 visible = false
 pixel_size = 0.001
@@ -73,28 +83,48 @@ text = "[Trigger] Place/Remove Anchors
 [B] Toggle Global Depth
 [A] Place Floating Anchor"
 
-[node name="RightHandPointer" type="XRController3D" parent="XROrigin3D"]
+[node name="RightHandPointer" type="XRController3D" parent="XROrigin3D" unique_id=233779841]
 tracker = &"right_hand"
 
-[node name="ScenePointerMesh" type="MeshInstance3D" parent="XROrigin3D/RightHandPointer"]
+[node name="ScenePointerMesh" type="MeshInstance3D" parent="XROrigin3D/RightHandPointer" unique_id=849768080]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.5)
 mesh = SubResource("BoxMesh_d27jm")
 
-[node name="SceneCollidingMesh" type="MeshInstance3D" parent="XROrigin3D/RightHandPointer"]
+[node name="SceneCollidingMesh" type="MeshInstance3D" parent="XROrigin3D/RightHandPointer" unique_id=304429222]
 mesh = SubResource("SphereMesh_kdpqm")
 
-[node name="RayCast3D" type="RayCast3D" parent="XROrigin3D/RightHandPointer"]
+[node name="RayCast3D" type="RayCast3D" parent="XROrigin3D/RightHandPointer" unique_id=503011393]
 target_position = Vector3(0, 0, -10)
 collision_mask = 6
 collide_with_areas = true
 
-[node name="OpenXRFbSceneManager" type="OpenXRFbSceneManager" parent="XROrigin3D"]
+[node name="OpenXRFbSceneManager" type="OpenXRFbSceneManager" parent="XROrigin3D" unique_id=174087770]
 default_scene = ExtResource("3_lquwl")
 visible = false
 scenes/global_mesh = ExtResource("4_7mycd")
 
-[node name="OpenXRFbSpatialAnchorManager" type="OpenXRFbSpatialAnchorManager" parent="XROrigin3D"]
+[node name="OpenXRFbSpatialAnchorManager" type="OpenXRFbSpatialAnchorManager" parent="XROrigin3D" unique_id=1324114786]
 scene = ExtResource("5_g7mio")
+
+[node name="OpenXRCompositionLayerQuad" type="OpenXRCompositionLayerQuad" parent="XROrigin3D" unique_id=1399792883 node_paths=PackedStringArray("layer_viewport", "controller") groups=["composition_layer"]]
+transform = Transform3D(1, 0, -2.98023e-08, 0, 0.945712, -0.325007, 0, 0.325007, 0.945712, -5.96046e-08, 1.568, -1.3717599)
+layer_viewport = NodePath("../../QuadViewport")
+sort_order = -1
+enable_hole_punch = true
+quad_size = Vector2(1.5, 1.5)
+script = ExtResource("5_7mycd")
+controller = NodePath("../RightHand")
+
+[node name="Pointer" type="MeshInstance3D" parent="XROrigin3D/OpenXRCompositionLayerQuad" unique_id=487464382]
+transform = Transform3D(1, 0, 0, 0, 0.9999997, -8.940697e-08, 0, 8.940697e-08, 0.9999997, -1.9371882e-08, 1.8914227, -0.6500132)
+mesh = SubResource("SphereMesh_272bh")
+
+[node name="QuadViewport" type="SubViewport" parent="." unique_id=2117494402]
+disable_3d = true
+gui_embed_subwindows = true
+render_target_update_mode = 4
+
+[node name="Control" parent="QuadViewport" unique_id=942888997 instance=ExtResource("6_7mycd")]
 
 [connection signal="button_pressed" from="XROrigin3D/LeftHand" to="." method="_on_left_hand_button_pressed"]
 [connection signal="button_pressed" from="XROrigin3D/RightHand" to="." method="_on_right_hand_button_pressed"]

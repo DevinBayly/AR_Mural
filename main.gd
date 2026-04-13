@@ -21,9 +21,9 @@ var global_environment_depth_enabled: bool = true
 @onready var environment_depth_node = $XROrigin3D/XRCamera3D/OpenXRMetaEnvironmentDepth
 @onready var depth_testing_mesh: MeshInstance3D = $XROrigin3D/RightHand/DepthTestingMesh
 
-#const SPATIAL_ANCHORS_FILE = "user://openxr_fb_spatial_anchors.json"
+const SPATIAL_ANCHORS_FILE = "user://openxr_fb_spatial_anchors.json"
 
-const SPATIAL_ANCHORS_FILE = "res://openxr_fb_spatial_anchors.json"
+#const SPATIAL_ANCHORS_FILE = "res://openxr_fb_spatial_anchors.json"
 
 var _setup := false
 
@@ -226,20 +226,21 @@ func _on_right_hand_button_pressed(name: String) -> void:
 				
 	elif name == "ax_button":
 		# remove the previous anchor
-		var anchor_parent: XRAnchor3D = selected_spatial_anchor_node.get_parent()
-		var prev_position = anchor_parent.global_transform.origin
-		var prev_basis = anchor_parent.basis
-		if anchor_parent is XRAnchor3D:
+		if selected_spatial_anchor_node:
+			var anchor_parent: XRAnchor3D = selected_spatial_anchor_node.get_parent()
+			var prev_position = anchor_parent.global_transform.origin
+			var prev_basis = anchor_parent.basis
+			if anchor_parent is XRAnchor3D:
+				spatial_anchor_manager.untrack_anchor(anchor_parent.tracker)
+			# bake the scale into the anchor
+			var anchor_transform = Transform3D()
+			anchor_transform.origin =  prev_position
+			anchor_transform.basis = prev_basis
+			
+			
 			spatial_anchor_manager.untrack_anchor(anchor_parent.tracker)
-		# bake the scale into the anchor
-		var anchor_transform = Transform3D()
-		anchor_transform.origin =  prev_position
-		anchor_transform.basis = prev_basis
-		
-		
-		spatial_anchor_manager.untrack_anchor(anchor_parent.tracker)
-		spatial_anchor_manager.create_anchor(anchor_transform,{scale=selected_spatial_anchor_node.imageScale,priority=selected_spatial_anchor_node.spritepriority,
-		imageid=selected_spatial_anchor_node.imageId})
+			spatial_anchor_manager.create_anchor(anchor_transform,{scale=selected_spatial_anchor_node.imageScale,priority=selected_spatial_anchor_node.spritepriority,
+			imageid=selected_spatial_anchor_node.imageId})
 		
 	elif name == "by_button":
 		global_environment_depth_enabled = not global_environment_depth_enabled
