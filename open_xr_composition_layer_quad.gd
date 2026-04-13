@@ -23,13 +23,20 @@ func _intersect_to_viewport_pos(intersect : Vector2) -> Vector2i:
 		return Vector2i(-1, -1)
 		
 # Called every frame. 'delta' is the elapsed time since the previous frame.
+var timer =1
 func _process(_delta):
 	# Hide our pointer, we'll make it visible if we're interacting with the viewport.
-	#$Pointer.visible = false
+	$Pointer.visible = false
 
 	if controller and layer_viewport:
 		var controller_t : Transform3D = controller.global_transform
 		var intersect : Vector2 = intersects_ray(controller_t.origin, -controller_t.basis.z)
+		timer -=_delta
+		if timer <0:
+			timer =1
+			#print(controller_t," is controller position")
+			print(intersect," is intersection")
+
 		if intersect != NO_INTERSECTION:
 			var is_pressed : bool = controller.is_button_pressed(button_action)
 

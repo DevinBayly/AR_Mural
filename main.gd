@@ -265,3 +265,7 @@ func _on_right_hand_input_vector_2_changed(name: String, value: Vector2) -> void
 	if selected_spatial_anchor_node:
 		selected_spatial_anchor_node.adjustScale(value)
 	pass # Replace with function body.
+
+
+func _on_xr_controller_3d_input_vector_2_changed(name: String, value: Vector2) -> void:
+	pass # Replace with function body.
