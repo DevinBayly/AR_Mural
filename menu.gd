@@ -22,6 +22,9 @@ func hide_anims(toggled):
 	else:
 		anims.show()
 
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseMotion:
+		$PointerRight.position = event.position
 
 func _on_sort_order_slider_drag_ended(value_changed: bool) -> void:
 	print(orderSlider.value, " is the new order value")

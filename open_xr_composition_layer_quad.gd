@@ -24,6 +24,7 @@ func _intersect_to_viewport_pos(intersect : Vector2) -> Vector2i:
 		
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 var timer =1
+signal intersectedInterface
 func _process(_delta):
 	# Hide our pointer, we'll make it visible if we're interacting with the viewport.
 	$Pointer.visible = false
@@ -42,6 +43,7 @@ func _process(_delta):
 
 			# Place our pointer where we're pointing
 			var pos : Vector3 = _intersect_to_global_pos(intersect)
+			
 			$Pointer.visible = true
 			$Pointer.global_position = pos
 			if was_intersect != NO_INTERSECTION and intersect != was_intersect:
@@ -71,6 +73,7 @@ func _process(_delta):
 				layer_viewport.push_input(event)
 			was_pressed = is_pressed
 			was_intersect = intersect
+			
 		else:
 			was_pressed = false
 			was_intersect = NO_INTERSECTION

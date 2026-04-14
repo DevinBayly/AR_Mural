@@ -121,5 +121,6 @@ render_target_update_mode = 4
 [connection signal="openxr_fb_scene_data_missing" from="XROrigin3D/OpenXRFbSceneManager" to="." method="_on_scene_manager_scene_data_missing"]
 [connection signal="openxr_fb_spatial_anchor_tracked" from="XROrigin3D/OpenXRFbSpatialAnchorManager" to="." method="_on_spatial_anchor_tracked"]
 [connection signal="openxr_fb_spatial_anchor_untracked" from="XROrigin3D/OpenXRFbSpatialAnchorManager" to="." method="_on_spatial_anchor_untracked"]
+[connection signal="intersectedInterface" from="XROrigin3D/OpenXRCompositionLayerQuad" to="." method="_on_open_xr_composition_layer_quad_intersected_interface"]
 [connection signal="button_pressed" from="XROrigin3D/XRController3D" to="." method="_on_right_hand_button_pressed"]
 [connection signal="input_vector2_changed" from="XROrigin3D/XRController3D" to="." method="_on_xr_controller_3d_input_vector_2_changed"]

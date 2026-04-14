@@ -11,6 +11,12 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_lti8b")
 
+[node name="PointerRight" type="ColorRect" parent="." unique_id=32572740]
+layout_mode = 0
+offset_right = 10.0
+offset_bottom = 10.0
+color = Color(1, 0, 1, 1)
+
 [node name="BoxContainer" type="VBoxContainer" parent="." unique_id=450874613]
 custom_minimum_size = Vector2(0, 5)
 layout_mode = 0
@@ -89,12 +95,6 @@ text = "woman"
 layout_mode = 2
 text = "pink
 "
-
-[node name="PointerRight" type="ColorRect" parent="." unique_id=32572740]
-layout_mode = 0
-offset_right = 10.0
-offset_bottom = 10.0
-color = Color(1, 0, 1, 1)
 
 [connection signal="drag_ended" from="BoxContainer/HBoxContainer/HSlider" to="." method="_on_scale_slider_drag_ended"]
 [connection signal="drag_ended" from="BoxContainer/HBoxContainer2/orderSlider" to="." method="_on_sort_order_slider_drag_ended"]
