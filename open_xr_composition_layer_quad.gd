@@ -65,6 +65,7 @@ func _process(_delta):
 				layer_viewport.push_input(event)
 			elif is_pressed and not was_pressed:
 				# Button was pressed?
+				print("button pressed")
 				var event : InputEventMouseButton = InputEventMouseButton.new()
 				event.button_index = 1
 				event.button_mask = MOUSE_BUTTON_MASK_LEFT
