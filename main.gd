@@ -188,7 +188,7 @@ func _physics_process(_delta: float) -> void:
 				scene_colliding_mesh.visible = true
 	else:
 		# make the point not visible for a moment
-		print("hiding pionter on menu")
+		#print("hiding pionter on menu")
 		right_hand_pointer.visible = false
 		
 
@@ -202,7 +202,7 @@ func _on_left_hand_button_pressed(name):
 		
 	elif name == "menu_button":
 		scene_manager.request_scene_capture()
-
+# used to help anchor pick which image it will be displaying
 var imageId=0
 var imageScale = 1
 var on_menu = false
@@ -284,4 +284,16 @@ func _on_xr_controller_3d_input_vector_2_changed(name: String, value: Vector2) -
 func _on_open_xr_composition_layer_quad_intersected_interface(is_on_menu) -> void:
 	on_menu = is_on_menu
 	#$QuadViewport/Control.update(intersection)
+	pass # Replace with function body.
+
+
+func _on_control_anim_selected(btn_name) -> void:
+	# set the animation that should be placed on the next trigger click
+	var names_id_map = ["center","man","woman","spikes","roundcact","pink","agave","ocotillo"]
+	var index_of_name = names_id_map.find(btn_name)
+	
+	# do a index of search for the image id we need to set
+	if index_of_name !=-1:
+		imageId = index_of_name
+		print(imageId)
 	pass # Replace with function body.

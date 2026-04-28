@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cfbc7fxw6gjqr"]
 
-[ext_resource type="Script" uid="uid://bu2j6asrssatv" path="res://menu.gd" id="1_lti8b"]
+[ext_resource type="Script" uid="uid://cxlp1bh6j25qv" path="res://menu.gd" id="1_lti8b"]
 
 [node name="Control" type="Control" unique_id=942888997]
 layout_mode = 3
@@ -77,7 +77,7 @@ columns = 3
 
 [node name="Button" type="Button" parent="Animations" unique_id=425273462]
 layout_mode = 2
-text = "Center"
+text = "center"
 
 [node name="Button2" type="Button" parent="Animations" unique_id=1545104510]
 layout_mode = 2

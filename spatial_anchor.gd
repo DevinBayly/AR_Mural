@@ -8,8 +8,8 @@ var spritepriority =0
 var selected := false
 # load all the different elements
 var center = preload("res://center_sprites.tres")
-var agave_frames = preload("res://agave_sprite.tres")
-var pink_cactus_frames = preload("res://pink_cactus_sprites.tres")
+var agave = preload("res://agave_sprite.tres")
+var pink = preload("res://pink_cactus_sprites.tres")
 var ocotillo = preload("res://ocotillo_sprites.tres")
 var man = preload("res://man_sprites.tres")
 var roundcact = preload("res://round_cactus_sprites.tres")
@@ -21,7 +21,7 @@ var pulse = preload("res://pulse_icon.tres")
 @onready var animSprit = $AnimatedSprite3D
 	
 var triggered = false
-var sprites_list = [center,man,woman,spikes,roundcact,pink_cactus_frames,agave_frames,ocotillo]
+var sprites_list = [center,man,woman,spikes,roundcact,pink,agave,ocotillo]
 func setup_scene(spatial_entity: OpenXRFbSpatialEntity) -> void:
 	
 	var data: Dictionary = spatial_entity.custom_data

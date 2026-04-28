@@ -100,6 +100,7 @@ controller = NodePath("../XRController3D")
 
 [node name="Pointer" type="MeshInstance3D" parent="XROrigin3D/OpenXRCompositionLayerQuad" unique_id=487464382]
 transform = Transform3D(1, 0, 0, 0, 0.9999997, -8.940697e-08, 0, 8.940697e-08, 0.9999997, 0, 0, 0)
+visible = false
 mesh = SubResource("SphereMesh_272bh")
 
 [node name="XRController3D" type="XRController3D" parent="XROrigin3D" unique_id=628731587]
@@ -124,3 +125,4 @@ render_target_update_mode = 4
 [connection signal="intersectedInterface" from="XROrigin3D/OpenXRCompositionLayerQuad" to="." method="_on_open_xr_composition_layer_quad_intersected_interface"]
 [connection signal="button_pressed" from="XROrigin3D/XRController3D" to="." method="_on_right_hand_button_pressed"]
 [connection signal="input_vector2_changed" from="XROrigin3D/XRController3D" to="." method="_on_xr_controller_3d_input_vector_2_changed"]
+[connection signal="animSelected" from="QuadViewport/Control" to="." method="_on_control_anim_selected"]
