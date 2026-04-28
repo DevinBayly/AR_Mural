@@ -126,3 +126,5 @@ render_target_update_mode = 4
 [connection signal="button_pressed" from="XROrigin3D/XRController3D" to="." method="_on_right_hand_button_pressed"]
 [connection signal="input_vector2_changed" from="XROrigin3D/XRController3D" to="." method="_on_xr_controller_3d_input_vector_2_changed"]
 [connection signal="animSelected" from="QuadViewport/Control" to="." method="_on_control_anim_selected"]
+[connection signal="orderSliderUpdate" from="QuadViewport/Control" to="." method="_on_control_order_slider_update"]
+[connection signal="scaleSliderUpdate" from="QuadViewport/Control" to="." method="_on_control_scale_slider_update"]

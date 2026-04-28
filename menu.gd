@@ -1,6 +1,6 @@
 extends Control
 signal scaleSliderUpdate
-signal sortSliderUpdate
+signal orderSliderUpdate
 # not sure, this might be from a previous part
 signal imageSelected
 signal backgroundDrawing
@@ -40,11 +40,13 @@ func _input(event: InputEvent) -> void:
 
 func _on_sort_order_slider_drag_ended(value_changed: bool) -> void:
 	print(orderSlider.value, " is the new order value")
+	orderSliderUpdate.emit(orderSlider.value)
 	pass # Replace with function body.
 
 
 func _on_scale_slider_drag_ended(value_changed: bool) -> void:
 	print(scaleSlider.value," is the new scale value")
+	scaleSliderUpdate.emit(scaleSlider.value)
 	pass # Replace with function body.
 
 func update(p_position_right: Vector2) -> void:

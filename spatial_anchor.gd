@@ -44,7 +44,11 @@ func adjustScale(newScale):
 		scaledelta = newScale.y*moderation
 	else:
 		scaledelta =0
-
+func sliderScale(newScale):
+	if animSprit:
+		animSprit.scale = Vector3(newScale,newScale,newScale)
+	else:
+		print("no sprite?")
 func turnOnAnimation():
 	
 	if triggered ==false:

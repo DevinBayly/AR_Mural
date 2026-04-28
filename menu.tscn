@@ -35,8 +35,10 @@ text = "scale"
 [node name="HSlider" type="HSlider" parent="BoxContainer/HBoxContainer" unique_id=690900059]
 layout_mode = 2
 size_flags_horizontal = 3
-max_value = 200.0
-value = 100.0
+min_value = 0.25
+max_value = 1.5
+step = 0.01
+value = 1.25
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="BoxContainer" unique_id=1382563643]
 layout_mode = 2
@@ -62,8 +64,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
-text = "Place 
-background"
+text = "Place background"
 
 [node name="CheckBox" type="CheckBox" parent="BoxContainer/HBoxContainer3" unique_id=1120074796]
 layout_mode = 2
@@ -93,8 +94,19 @@ text = "woman"
 
 [node name="Button5" type="Button" parent="Animations" unique_id=241671851]
 layout_mode = 2
-text = "pink
-"
+text = "pink"
+
+[node name="Button6" type="Button" parent="Animations" unique_id=1620322857]
+layout_mode = 2
+text = "agave"
+
+[node name="Button7" type="Button" parent="Animations" unique_id=749777209]
+layout_mode = 2
+text = "roundcact"
+
+[node name="Button8" type="Button" parent="Animations" unique_id=1133657021]
+layout_mode = 2
+text = "ocotillo"
 
 [connection signal="drag_ended" from="BoxContainer/HBoxContainer/HSlider" to="." method="_on_scale_slider_drag_ended"]
 [connection signal="drag_ended" from="BoxContainer/HBoxContainer2/orderSlider" to="." method="_on_sort_order_slider_drag_ended"]

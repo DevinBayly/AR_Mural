@@ -152,7 +152,7 @@ func display_scene_and_spatial_anchors(value: bool) -> void:
 
 	scene_and_spatial_anchors_displayed = value
 
-
+var last_selected_node
 func _physics_process(_delta: float) -> void:
 	if not on_menu:
 		
@@ -171,6 +171,7 @@ func _physics_process(_delta: float) -> void:
 			if collider and collider.get_collision_layer_value(3):
 				selected_spatial_anchor_node = collider
 				selected_spatial_anchor_node.turnOnAnimation()
+				
 			else:
 				selected_spatial_anchor_node = null
 		else:
@@ -253,10 +254,9 @@ func _on_right_hand_button_pressed(name: String) -> void:
 				imageid=selected_spatial_anchor_node.imageId})
 			
 		elif name == "by_button":
-			global_environment_depth_enabled = not global_environment_depth_enabled
-
-			environment_depth_node.visible = global_environment_depth_enabled
-			depth_testing_mesh.set_surface_override_material(0, BLUE_MATERIAL if global_environment_depth_enabled else ENVIRONMENT_DEPTH_MATERIAL)
+			if selected_spatial_anchor_node:
+				last_selected_node = selected_spatial_anchor_node
+				
 
 
 func _on_scene_manager_scene_capture_completed(success: bool) -> void:
@@ -273,6 +273,7 @@ func _on_scene_manager_scene_data_missing() -> void:
 
 func _on_right_hand_input_vector_2_changed(name: String, value: Vector2) -> void:
 	if selected_spatial_anchor_node:
+		print("scaling ",value)
 		selected_spatial_anchor_node.adjustScale(value)
 	pass # Replace with function body.
 
@@ -296,4 +297,15 @@ func _on_control_anim_selected(btn_name) -> void:
 	if index_of_name !=-1:
 		imageId = index_of_name
 		print(imageId)
+	pass # Replace with function body.
+
+
+func _on_control_order_slider_update() -> void:
+	# use these to update the previously selected element
+	pass # Replace with function body.
+
+
+func _on_control_scale_slider_update(sliderValue) -> void:
+	if last_selected_node:
+		last_selected_node.sliderScale(sliderValue)
 	pass # Replace with function body.
