@@ -1,7 +1,6 @@
 extends OpenXRCompositionLayerQuad
 
 const NO_INTERSECTION = Vector2(-1.0, -1.0)
-
 @export var controller : XRController3D
 @export var button_action : String = "trigger_click"
 
@@ -25,6 +24,7 @@ func _intersect_to_viewport_pos(intersect : Vector2) -> Vector2i:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 var timer =1
 signal intersectedInterface
+var can_update = false
 func _process(_delta):
 	# Hide our pointer, we'll make it visible if we're interacting with the viewport.
 	$Pointer.visible = false
@@ -37,8 +37,12 @@ func _process(_delta):
 			timer =1
 			#print(controller_t," is controller position")
 			print(intersect," is intersection")
-
+			# allow for signaling of "on menu or not"
+			can_update = true
 		if intersect != NO_INTERSECTION:
+			if can_update:
+				intersectedInterface.emit(true)
+				can_update = false
 			var is_pressed : bool = controller.is_button_pressed(button_action)
 
 			# Place our pointer where we're pointing
@@ -76,5 +80,8 @@ func _process(_delta):
 			was_intersect = intersect
 			
 		else:
+			if can_update:
+				intersectedInterface.emit(false)
+				can_update = false
 			was_pressed = false
 			was_intersect = NO_INTERSECTION
