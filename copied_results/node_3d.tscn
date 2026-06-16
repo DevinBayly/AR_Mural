@@ -1,0 +1,106 @@
+[gd_scene format=3 uid="uid://bjlxi1vgdckln"]
+
+[ext_resource type="PackedScene" uid="uid://v75csjjxgtpx" path="res://example_panel.tscn" id="3_a0tk4"]
+[ext_resource type="Script" uid="uid://djn6glm3tc2al" path="res://open_xr_composition_layer_quad.gd" id="3_r3fl7"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_r3fl7"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_dqyx0"]
+sky_material = SubResource("ProceduralSkyMaterial_r3fl7")
+
+[sub_resource type="Environment" id="Environment_jka67"]
+background_mode = 2
+sky = SubResource("Sky_dqyx0")
+ambient_light_source = 2
+ambient_light_color = Color(0.270588, 0.270588, 0.270588, 1)
+tonemap_mode = 2
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_i5arm"]
+top_radius = 0.005
+bottom_radius = 0.005
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wc5p8"]
+shading_mode = 0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_jsk3o"]
+top_radius = 0.005
+bottom_radius = 0.005
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4arys"]
+shading_mode = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_w54kh"]
+albedo_color = Color(1, 0.00999999, 0.00999999, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_i5arm"]
+material = SubResource("StandardMaterial3D_w54kh")
+radius = 0.025
+height = 0.05
+
+[node name="Node3D" type="Node3D" unique_id=1807689299]
+script = ExtResource("1_noarx")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=982839418]
+environment = SubResource("Environment_jka67")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1868144270]
+transform = Transform3D(0.677077, -0.692092, 0.25015, 0.264251, 0.545897, 0.79509, -0.686831, -0.472235, 0.552501, 0, 0, 0)
+
+[node name="XROrigin3D" type="XROrigin3D" parent="." unique_id=45122365]
+transform = Transform3D(0.813436, 0, 0.581655, 0, 1, 0, -0.581655, 0, 0.813436, 1.32074, 0, 1.72285)
+
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D" unique_id=24827075]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.352791, 0)
+
+[node name="LeftController" type="XRController3D" parent="XROrigin3D" unique_id=2074857449]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.460909, 0.388594, -0.241118)
+tracker = &"left_hand"
+pose = &"grip"
+
+[node name="OpenXRFbRenderModel" type="OpenXRFbRenderModel" parent="XROrigin3D/LeftController" unique_id=1627819095]
+
+[node name="LeftControllerRayCast" type="RayCast3D" parent="XROrigin3D/LeftController" unique_id=840627239]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.059, -0.052)
+target_position = Vector3(0, -10, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="XROrigin3D/LeftController/LeftControllerRayCast" unique_id=390388529]
+mesh = SubResource("CylinderMesh_i5arm")
+surface_material_override/0 = SubResource("StandardMaterial3D_wc5p8")
+
+[node name="RightController" type="XRController3D" parent="XROrigin3D" unique_id=763555987]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.479, 0.389, -0.241)
+tracker = &"right_hand"
+pose = &"grip"
+
+[node name="OpenXRFbRenderModel" type="OpenXRFbRenderModel" parent="XROrigin3D/RightController" unique_id=1154125645]
+render_model_type = 1
+
+[node name="RightControllerRayCast" type="RayCast3D" parent="XROrigin3D/RightController" unique_id=532250064]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.059, -0.052)
+target_position = Vector3(0, -10, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="XROrigin3D/RightController/RightControllerRayCast" unique_id=1473015952]
+mesh = SubResource("CylinderMesh_jsk3o")
+surface_material_override/0 = SubResource("StandardMaterial3D_4arys")
+
+[node name="OpenXRCompositionLayerQuad" type="OpenXRCompositionLayerQuad" parent="XROrigin3D" unique_id=619835071 node_paths=PackedStringArray("layer_viewport", "controller") groups=["composition_layer"]]
+transform = Transform3D(1, 0, -2.98023e-08, 0, 0.945712, -0.325007, 0, 0.325007, 0.945712, -5.96046e-08, 1.568, -2.37176)
+layer_viewport = NodePath("../../QuadViewport")
+sort_order = -1
+enable_hole_punch = true
+quad_size = Vector2(1.5, 1.5)
+script = ExtResource("3_r3fl7")
+controller = NodePath("../RightController")
+
+[node name="Pointer" type="MeshInstance3D" parent="XROrigin3D/OpenXRCompositionLayerQuad" unique_id=293747111]
+mesh = SubResource("SphereMesh_i5arm")
+
+[node name="QuadViewport" type="SubViewport" parent="." unique_id=85351727]
+disable_3d = true
+gui_embed_subwindows = true
+render_target_update_mode = 4
+
+[node name="ExamplePanel" parent="QuadViewport" unique_id=1873310519 instance=ExtResource("3_a0tk4")]
+script = null

@@ -152,9 +152,11 @@ func display_scene_and_spatial_anchors(value: bool) -> void:
 
 	scene_and_spatial_anchors_displayed = value
 
-
+var last_selected_node
 func _physics_process(_delta: float) -> void:
-	if right_hand_pointer.visible:
+	if not on_menu:
+		
+		right_hand_pointer.visible = true
 		var previous_selected_spatial_anchor_node = selected_spatial_anchor_node
 
 		if right_hand_pointer_raycast.is_colliding():
@@ -169,6 +171,7 @@ func _physics_process(_delta: float) -> void:
 			if collider and collider.get_collision_layer_value(3):
 				selected_spatial_anchor_node = collider
 				selected_spatial_anchor_node.turnOnAnimation()
+				
 			else:
 				selected_spatial_anchor_node = null
 		else:
@@ -184,6 +187,11 @@ func _physics_process(_delta: float) -> void:
 				scene_colliding_mesh.visible = false
 			else:
 				scene_colliding_mesh.visible = true
+	else:
+		# make the point not visible for a moment
+		#print("hiding pionter on menu")
+		right_hand_pointer.visible = false
+		
 
 
 func _on_left_hand_button_pressed(name):
@@ -195,58 +203,60 @@ func _on_left_hand_button_pressed(name):
 		
 	elif name == "menu_button":
 		scene_manager.request_scene_capture()
-
+# used to help anchor pick which image it will be displaying
 var imageId=0
 var imageScale = 1
+var on_menu = false
 func _on_right_hand_button_pressed(name: String) -> void:
-	if name == "trigger_click" and right_hand_pointer.visible:
-		if right_hand_pointer_raycast.is_colliding():
+	# only trigger this if the cursor isn't being interrupted by the menu
+	if not on_menu:
+		if name == "trigger_click" and right_hand_pointer.visible:
+			if right_hand_pointer_raycast.is_colliding():
+				if selected_spatial_anchor_node:
+					var anchor_parent = selected_spatial_anchor_node.get_parent()
+					if anchor_parent is XRAnchor3D:
+						spatial_anchor_manager.untrack_anchor(anchor_parent.tracker)
+						# take on the imageId and scale from the removed element to make reposition easier
+						imageId = selected_spatial_anchor_node.imageId
+						imageScale = selected_spatial_anchor_node.imageScale
+						# decrease the imageId because we removed that image
+				else:
+					var anchor_transform := Transform3D()
+					anchor_transform.origin = right_hand_pointer_raycast.get_collision_point()
+
+					var collision_normal: Vector3 = right_hand_pointer_raycast.get_collision_normal()
+					if collision_normal.is_equal_approx(Vector3.UP):
+						anchor_transform.basis = anchor_transform.basis.rotated(Vector3(1.0, 0.0, 0.0), PI / 2.0)
+					elif collision_normal.is_equal_approx(Vector3.DOWN):
+						anchor_transform.basis = anchor_transform.basis.rotated(Vector3(1.0, 0.0, 0.0), -PI / 2.0)
+					else:
+						anchor_transform.basis = Basis.looking_at(right_hand_pointer_raycast.get_collision_normal())
+
+					spatial_anchor_manager.create_anchor(anchor_transform, {scale=imageScale,priority=0,imageid=imageId})
+					imageId+=1
+					
+		elif name == "ax_button":
+			# remove the previous anchor
 			if selected_spatial_anchor_node:
-				var anchor_parent = selected_spatial_anchor_node.get_parent()
+				var anchor_parent: XRAnchor3D = selected_spatial_anchor_node.get_parent()
+				var prev_position = anchor_parent.global_transform.origin
+				var prev_basis = anchor_parent.basis
 				if anchor_parent is XRAnchor3D:
 					spatial_anchor_manager.untrack_anchor(anchor_parent.tracker)
-					# take on the imageId and scale from the removed element to make reposition easier
-					imageId = selected_spatial_anchor_node.imageId
-					imageScale = selected_spatial_anchor_node.imageScale
-					# decrease the imageId because we removed that image
-			else:
-				var anchor_transform := Transform3D()
-				anchor_transform.origin = right_hand_pointer_raycast.get_collision_point()
-
-				var collision_normal: Vector3 = right_hand_pointer_raycast.get_collision_normal()
-				if collision_normal.is_equal_approx(Vector3.UP):
-					anchor_transform.basis = anchor_transform.basis.rotated(Vector3(1.0, 0.0, 0.0), PI / 2.0)
-				elif collision_normal.is_equal_approx(Vector3.DOWN):
-					anchor_transform.basis = anchor_transform.basis.rotated(Vector3(1.0, 0.0, 0.0), -PI / 2.0)
-				else:
-					anchor_transform.basis = Basis.looking_at(right_hand_pointer_raycast.get_collision_normal())
-
-				spatial_anchor_manager.create_anchor(anchor_transform, {scale=imageScale,priority=0,imageid=imageId})
-				imageId+=1
+				# bake the scale into the anchor
+				var anchor_transform = Transform3D()
+				anchor_transform.origin =  prev_position
+				anchor_transform.basis = prev_basis
 				
-	elif name == "ax_button":
-		# remove the previous anchor
-		if selected_spatial_anchor_node:
-			var anchor_parent: XRAnchor3D = selected_spatial_anchor_node.get_parent()
-			var prev_position = anchor_parent.global_transform.origin
-			var prev_basis = anchor_parent.basis
-			if anchor_parent is XRAnchor3D:
+				
 				spatial_anchor_manager.untrack_anchor(anchor_parent.tracker)
-			# bake the scale into the anchor
-			var anchor_transform = Transform3D()
-			anchor_transform.origin =  prev_position
-			anchor_transform.basis = prev_basis
+				spatial_anchor_manager.create_anchor(anchor_transform,{scale=selected_spatial_anchor_node.imageScale,priority=selected_spatial_anchor_node.spritepriority,
+				imageid=selected_spatial_anchor_node.imageId})
 			
-			
-			spatial_anchor_manager.untrack_anchor(anchor_parent.tracker)
-			spatial_anchor_manager.create_anchor(anchor_transform,{scale=selected_spatial_anchor_node.imageScale,priority=selected_spatial_anchor_node.spritepriority,
-			imageid=selected_spatial_anchor_node.imageId})
-		
-	elif name == "by_button":
-		global_environment_depth_enabled = not global_environment_depth_enabled
-
-		environment_depth_node.visible = global_environment_depth_enabled
-		depth_testing_mesh.set_surface_override_material(0, BLUE_MATERIAL if global_environment_depth_enabled else ENVIRONMENT_DEPTH_MATERIAL)
+		elif name == "by_button":
+			if selected_spatial_anchor_node:
+				last_selected_node = selected_spatial_anchor_node
+				
 
 
 func _on_scene_manager_scene_capture_completed(success: bool) -> void:
@@ -263,9 +273,39 @@ func _on_scene_manager_scene_data_missing() -> void:
 
 func _on_right_hand_input_vector_2_changed(name: String, value: Vector2) -> void:
 	if selected_spatial_anchor_node:
+		print("scaling ",value)
 		selected_spatial_anchor_node.adjustScale(value)
 	pass # Replace with function body.
 
 
 func _on_xr_controller_3d_input_vector_2_changed(name: String, value: Vector2) -> void:
+	pass # Replace with function body.
+
+
+func _on_open_xr_composition_layer_quad_intersected_interface(is_on_menu) -> void:
+	on_menu = is_on_menu
+	#$QuadViewport/Control.update(intersection)
+	pass # Replace with function body.
+
+
+func _on_control_anim_selected(btn_name) -> void:
+	# set the animation that should be placed on the next trigger click
+	var names_id_map = ["center","man","woman","spikes","roundcact","pink","agave","ocotillo"]
+	var index_of_name = names_id_map.find(btn_name)
+	
+	# do a index of search for the image id we need to set
+	if index_of_name !=-1:
+		imageId = index_of_name
+		print(imageId)
+	pass # Replace with function body.
+
+
+func _on_control_order_slider_update() -> void:
+	# use these to update the previously selected element
+	pass # Replace with function body.
+
+
+func _on_control_scale_slider_update(sliderValue) -> void:
+	if last_selected_node:
+		last_selected_node.sliderScale(sliderValue)
 	pass # Replace with function body.

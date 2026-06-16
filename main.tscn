@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://cfxf4wpwr3y2p" path="res://main.gd" id="1_fsva1"]
 [ext_resource type="PackedScene" uid="uid://bcjp8kcgde4cs" path="res://scene_anchor.tscn" id="3_lquwl"]
 [ext_resource type="PackedScene" uid="uid://bwo5nq0clfe3c" path="res://scene_global_mesh.tscn" id="4_7mycd"]
-[ext_resource type="Script" uid="uid://xf54om6eut8k" path="res://open_xr_composition_layer_quad.gd" id="5_7mycd"]
+[ext_resource type="Script" uid="uid://djn6glm3tc2al" path="res://open_xr_composition_layer_quad.gd" id="5_7mycd"]
 [ext_resource type="PackedScene" uid="uid://dsfd7xrm6o50p" path="res://spatial_anchor.tscn" id="5_g7mio"]
 [ext_resource type="PackedScene" uid="uid://cfbc7fxw6gjqr" path="res://menu.tscn" id="6_7mycd"]
 
@@ -100,6 +100,7 @@ controller = NodePath("../XRController3D")
 
 [node name="Pointer" type="MeshInstance3D" parent="XROrigin3D/OpenXRCompositionLayerQuad" unique_id=487464382]
 transform = Transform3D(1, 0, 0, 0, 0.9999997, -8.940697e-08, 0, 8.940697e-08, 0.9999997, 0, 0, 0)
+visible = false
 mesh = SubResource("SphereMesh_272bh")
 
 [node name="XRController3D" type="XRController3D" parent="XROrigin3D" unique_id=628731587]
@@ -122,5 +123,9 @@ unique_name_in_owner = true
 [connection signal="openxr_fb_scene_data_missing" from="XROrigin3D/OpenXRFbSceneManager" to="." method="_on_scene_manager_scene_data_missing"]
 [connection signal="openxr_fb_spatial_anchor_tracked" from="XROrigin3D/OpenXRFbSpatialAnchorManager" to="." method="_on_spatial_anchor_tracked"]
 [connection signal="openxr_fb_spatial_anchor_untracked" from="XROrigin3D/OpenXRFbSpatialAnchorManager" to="." method="_on_spatial_anchor_untracked"]
+[connection signal="intersectedInterface" from="XROrigin3D/OpenXRCompositionLayerQuad" to="." method="_on_open_xr_composition_layer_quad_intersected_interface"]
 [connection signal="button_pressed" from="XROrigin3D/XRController3D" to="." method="_on_right_hand_button_pressed"]
 [connection signal="input_vector2_changed" from="XROrigin3D/XRController3D" to="." method="_on_xr_controller_3d_input_vector_2_changed"]
+[connection signal="animSelected" from="QuadViewport/Control" to="." method="_on_control_anim_selected"]
+[connection signal="orderSliderUpdate" from="QuadViewport/Control" to="." method="_on_control_order_slider_update"]
+[connection signal="scaleSliderUpdate" from="QuadViewport/Control" to="." method="_on_control_scale_slider_update"]
