@@ -3,3 +3,5 @@ sprites
 frames
 addons
 .godot
+android/*
+*.uid
