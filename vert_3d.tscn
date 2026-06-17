@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://uio1i5be8av0"]
+
+[ext_resource type="Script" uid="uid://c66s7tt2si755" path="res://vert_3d.gd" id="1_liw6m"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dnppb"]
+size = Vector3(0.5, 0.5, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6pf4a"]
+resource_local_to_scene = true
+
+[sub_resource type="SphereMesh" id="SphereMesh_liw6m"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_6pf4a")
+radius = 0.25
+height = 0.5
+
+[node name="vert_3d" type="Node3D" unique_id=1370350870]
+script = ExtResource("1_liw6m")
+
+[node name="Area3D" type="Area3D" parent="." unique_id=1411247948]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1428436781]
+shape = SubResource("BoxShape3D_dnppb")
+
+[node name="mark" type="MeshInstance3D" parent="." unique_id=590935383]
+mesh = SubResource("SphereMesh_liw6m")
+
+[connection signal="area_entered" from="Area3D" to="." method="_on_area_3d_area_entered"]
+[connection signal="area_exited" from="Area3D" to="." method="_on_area_3d_area_exited"]
+[connection signal="visibility_changed" from="mark" to="." method="_on_mark_visibility_changed"]

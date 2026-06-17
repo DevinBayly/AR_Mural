@@ -51,3 +51,9 @@ func _on_scale_slider_drag_ended(value_changed: bool) -> void:
 
 func update(p_position_right: Vector2) -> void:
 	pointer_right.position = size * p_position_right - (0.5 * pointer_right.size)
+
+
+func _on_check_box_toggled(toggled_on: bool) -> void:
+	# emit the toggle result 
+	backgroundDrawing.emit(toggled_on)
+	pass # Replace with function body.

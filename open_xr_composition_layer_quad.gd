@@ -36,7 +36,7 @@ func _process(_delta):
 		if timer <0:
 			timer =1
 			#print(controller_t," is controller position")
-			print(intersect," is intersection")
+			#print(intersect," is intersection")
 			# allow for signaling of "on menu or not"
 			can_update = true
 		if intersect != NO_INTERSECTION:

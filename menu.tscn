@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cfbc7fxw6gjqr"]
 
-[ext_resource type="Script" uid="uid://cxlp1bh6j25qv" path="res://menu.gd" id="1_lti8b"]
+[ext_resource type="Script" uid="uid://dv2v0s8ihjib7" path="res://menu.gd" id="1_lti8b"]
 
 [node name="Control" type="Control" unique_id=942888997]
 layout_mode = 3
@@ -111,3 +111,4 @@ text = "ocotillo"
 
 [connection signal="drag_ended" from="BoxContainer/HBoxContainer/HSlider" to="." method="_on_scale_slider_drag_ended"]
 [connection signal="drag_ended" from="BoxContainer/HBoxContainer2/orderSlider" to="." method="_on_sort_order_slider_drag_ended"]
+[connection signal="toggled" from="BoxContainer/HBoxContainer3/CheckBox" to="." method="_on_check_box_toggled"]

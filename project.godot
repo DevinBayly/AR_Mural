@@ -93,4 +93,3 @@ openxr/extensions/meta/render_model=true
 openxr/extensions/meta/anchor_api=true
 openxr/extensions/meta/scene_api=true
 openxr/extensions/meta/environment_depth=true
-openxr/extensions/meta/color_space/starting_color_space=3
