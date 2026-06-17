@@ -8,6 +8,7 @@ var scene_and_spatial_anchors_displayed: bool = true
 var selected_spatial_anchor_node: Node3D = null
 var global_environment_depth_enabled: bool = true
 var vert3d = preload("res://vert_3d.tscn")
+@onready var testicon = preload("res://icon.svg")
 
 
 @onready var left_hand: XRController3D = $XROrigin3D/LeftHand
@@ -218,7 +219,49 @@ var triangle_vertices=[]
 var hovered_element
 var center = Vector3(0,0,0)
 var backgroundDrawing=false
-
+func calc_center():
+    var total = Vector3(0,0,0)
+    for v in all_vertx:
+        total +=v
+    center.x = total.x/all_vertx.size()
+    center.y = total.y/all_vertx.size()
+    center.z = total.z/all_vertx.size()
+func uv_edges():
+    for pair in edges:		
+        var start = pair[0]
+        var end = pair[1]
+        var dif = end.position - start.position
+        # dir from center
+        var centerdif = center - start.position
+        # figure out if the horizontal dif is bigger than the vertical
+        if abs(dif.x) > abs(dif.y):
+            # we have a horizontal edge
+            # figure out our v coordinate to hold steady
+            var v = 0
+            if centerdif.y > 0:
+                # center point is above our starting vector so we are a horizontal "top" line with a 0 as v
+                v = 1
+            # keep in mind that we might need to figure out if we are a top or bottom horizontal
+            if dif.x >0:
+                start.uv = Vector2(0,v)
+                end.uv = Vector2(1,v)
+            else:
+                start.uv = Vector2(1,v)
+                end.uv = Vector2(0,v)
+            # figure out which one needs to have the 0 vs 1 in the u coordinate
+        else:
+            # we have a vertical edge
+            # figure out our u coordinate to hold steady
+            var u =1
+            if centerdif.x >0:
+                #means center point is to the right of our spot so we are a vertical line with 0 as our u
+                u =0
+            if dif.y>0:
+                start.uv = Vector2(u,1)
+                end.uv = Vector2(u,0)
+            else:
+                start.uv = Vector2(u,0)
+                end.uv = Vector2(u,1)
 func create_colored_geometry(verts):
     var vpos = []
     for vert in verts:
@@ -264,7 +307,39 @@ func clear_triangles_list():
         # turn off their selection colors
         v.tri_cleared()
     triangle_vertices = []
-
+func draw_im() -> void:
+    calc_center()
+    uv_edges()
+    # go get all the other mesh2ds 
+    # find the min and max of all their points
+    # go back through each and update it's texture coordinates, and add a texture to the shape
+    # OR
+    # make one big ass mesh using all the triangles, and set all the uvs to correct values, and then at the end just assign a single texture
+    var meshes = get_children()
+    print("trying something different")
+    
+    
+    # use the min and max values to help us establish uv coordinates
+    for m in meshes:
+        if m is MeshInstance3D:
+            var mesh:ArrayMesh = m.mesh
+            # iterate over the vertices in the triangle
+            var mesh_array = mesh.surface_get_arrays(0)
+            var vertices = mesh_array[Mesh.ARRAY_VERTEX]
+            var uvs = mesh_array[Mesh.ARRAY_TEX_UV]
+            
+            mesh_array[Mesh.ARRAY_TEX_UV] = uvs
+            mesh.surface_remove(0)
+            # re add the data so the uvs get baked in properly
+            mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,mesh_array)
+            
+            var mat: StandardMaterial3D = StandardMaterial3D.new()
+            mat.albedo_texture = testicon
+            mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+            mat.cull_mode = BaseMaterial3D.CULL_DISABLED
+            mesh.surface_set_material(0,mat)
+            m.mesh = mesh
+            
 func _on_left_hand_button_pressed(name):
     if name == "ax_button":
         #display_scene_and_spatial_anchors(not scene_and_spatial_anchors_displayed)
@@ -306,10 +381,9 @@ func _on_right_hand_button_pressed(name: String) -> void:
                 create_colored_geometry(triangle_vertices)
                 clear_triangles_list()
             # check if we have a
-    ## elif name == "grip_click":
-    ## 	# use this to draw over the triangles
-    ## 	draw_im()
-    ## pass # Replace with function body.	
+        elif name == "grip_click":
+            # use this to draw over the triangles
+            draw_im()
     # only trigger this if the cursor isn't being interrupted by the menu
     else:
         if not on_menu:
