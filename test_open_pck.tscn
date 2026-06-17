@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://3kmbwvlo00es"]
+
+[ext_resource type="Script" uid="uid://lr1mc30siv5i" path="res://test_open_pck.gd" id="1_q5a84"]
+
+[node name="test_open_pck" type="Node" unique_id=1222928978]
+script = ExtResource("1_q5a84")
