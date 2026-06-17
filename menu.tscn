@@ -71,9 +71,10 @@ layout_mode = 2
 
 [node name="Animations" type="GridContainer" parent="." unique_id=236153862]
 layout_mode = 0
-offset_top = 151.0
-offset_right = 174.0
-offset_bottom = 217.0
+offset_left = 212.0
+offset_top = 4.0
+offset_right = 426.0
+offset_bottom = 105.0
 columns = 3
 
 [node name="Button" type="Button" parent="Animations" unique_id=425273462]

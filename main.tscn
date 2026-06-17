@@ -90,11 +90,11 @@ scenes/global_mesh = ExtResource("4_7mycd")
 scene = ExtResource("5_g7mio")
 
 [node name="OpenXRCompositionLayerQuad" type="OpenXRCompositionLayerQuad" parent="XROrigin3D" unique_id=1399792883 node_paths=PackedStringArray("layer_viewport", "controller") groups=["composition_layer"]]
-transform = Transform3D(1, 0, 0, 0, 1.0000004, 0, 0, 0, 1.0000004, 0, 1.56, -2.37)
+transform = Transform3D(1, 0, 0, 0, 0.7031716, 0.71102065, 0, -0.71102065, 0.7031716, 0, 0.17211652, -1.3052645)
 layer_viewport = NodePath("../../QuadViewport")
 sort_order = -1
 enable_hole_punch = true
-quad_size = Vector2(1.5, 1.5)
+quad_size = Vector2(3, 0.75)
 script = ExtResource("5_7mycd")
 controller = NodePath("../XRController3D")
 
@@ -113,6 +113,7 @@ unique_name_in_owner = true
 [node name="QuadViewport" type="SubViewport" parent="." unique_id=2117494402]
 disable_3d = true
 gui_embed_subwindows = true
+size = Vector2i(1024, 256)
 render_target_update_mode = 4
 
 [node name="Control" parent="QuadViewport" unique_id=942888997 instance=ExtResource("6_7mycd")]
