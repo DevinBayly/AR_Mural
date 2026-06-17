@@ -4,3 +4,5 @@ frames
 addons
 .godot
 android/
+*.uid
+*.import
