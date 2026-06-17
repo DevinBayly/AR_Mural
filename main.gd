@@ -157,6 +157,7 @@ func display_scene_and_spatial_anchors(value: bool) -> void:
 var col_pos
 var col
 var last_selected_node
+
 func _physics_process(_delta: float) -> void:
     if not on_menu:
         
@@ -174,6 +175,12 @@ func _physics_process(_delta: float) -> void:
 
             var collider: CollisionObject3D = right_hand_pointer_raycast.get_collider()
             col = collider
+            # check if the collider is part of the vert3d 
+            var col_group = col.get_parent().get_groups()
+            if col_group.size()> 0 and col_group[0] =="verts":
+                print("highlighting sphere")
+                # use the method on the parent to highlight the element
+                hovered_element = col.get_parent()
             if collider and collider.get_collision_layer_value(3):
                 selected_spatial_anchor_node = collider
                 selected_spatial_anchor_node.turnOnAnimation()
@@ -212,8 +219,51 @@ var hovered_element
 var center = Vector3(0,0,0)
 var backgroundDrawing=false
 
-func vert_was_hovered(vert):
-    hovered_element=vert
+func create_colored_geometry(verts):
+    var vpos = []
+    for vert in verts:
+        vpos.push_back(vert.position)
+    var vertices = PackedVector3Array()
+    var uvs = PackedVector2Array()
+    var ind =0
+    for v in vpos:
+        var vert3d =verts[ind]
+        vertices.push_back(v)
+        uvs.push_back(vert3d.uv)
+        ind+=1
+    # Initialize the ArrayMesh.
+    var arr_mesh:ArrayMesh = ArrayMesh.new()
+    var arrays = []
+    arrays.resize(Mesh.ARRAY_MAX)
+    arrays[Mesh.ARRAY_VERTEX] = vertices
+    
+    arrays[Mesh.ARRAY_TEX_UV] = uvs
+    
+    # Create the Mesh.
+    arr_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
+    var mat = StandardMaterial3D.new()
+    mat.albedo_color = Color(randf(),randf(),randf())
+    mat.cull_mode = BaseMaterial3D.CULL_DISABLED
+    arr_mesh.surface_set_material(0,mat)
+    var m = MeshInstance3D.new()
+    m.mesh = arr_mesh
+    
+    # make this a random color
+    add_child(m)
+
+func remove_meshes():
+    # also remove all meshes
+    var meshes = get_children()
+    
+    for m in meshes:
+        if m is MeshInstance3D:
+            m.queue_free()
+func clear_triangles_list():
+    #clear the triangle list
+    for v in triangle_vertices:
+        # turn off their selection colors
+        v.tri_cleared()
+    triangle_vertices = []
 
 func _on_left_hand_button_pressed(name):
     if name == "ax_button":
@@ -230,33 +280,32 @@ var imageScale = 1
 var on_menu = false
 func _on_right_hand_button_pressed(name: String) -> void:
     if backgroundDrawing:
-     print(name)
-     if name == "ax_button":
-         if col:
-             print("position",col_pos)
-             # maek a vertex there
-             var new_vert = vert3d.instantiate()
-             new_vert.position = col_pos
-             new_vert.vertexhovered.connect(vert_was_hovered)
-             add_child(new_vert)
+        print(name)
+        if name == "ax_button":
+            if col:
+                print("position",col_pos)
+                # maek a vertex there
+                var new_vert = vert3d.instantiate()
+                new_vert.position = col_pos
+                new_vert.add_to_group("verts")
+                add_child(new_vert)
 
-             # this just makes sure we have a list of the edges
-             all_vertx.push_back(col_pos)
-             if prev:
-                 edges.push_back([prev,new_vert])
-                 prev = new_vert
-             else:
-                 prev = new_vert
-    ## 					
-    ## elif name == "by_button":
-    ## 	# turn the hovered_element on for it's triangle 
-    ## 	hovered_element.tri_clicked()
-    ## 	triangle_vertices.push_back(hovered_element)
-    ## 	print("tri verts are ", triangle_vertices)
-    ## 	if triangle_vertices.size()==3:
-    ## 		create_colored_geometry(triangle_vertices)
-    ## 		clear_triangles_list()
-    ## 	# check if we have a
+                # this just makes sure we have a list of the edges
+                all_vertx.push_back(col_pos)
+                if prev:
+                    edges.push_back([prev,new_vert])
+                    prev = new_vert
+                else:
+                    prev = new_vert
+        elif name == "by_button":
+            # turn the hovered_element on for it's triangle 
+            hovered_element.tri_clicked()
+            triangle_vertices.push_back(hovered_element)
+            print("tri verts are ", triangle_vertices)
+            if triangle_vertices.size()==3:
+                create_colored_geometry(triangle_vertices)
+                clear_triangles_list()
+            # check if we have a
     ## elif name == "grip_click":
     ## 	# use this to draw over the triangles
     ## 	draw_im()

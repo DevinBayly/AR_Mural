@@ -24,6 +24,10 @@ config/icon="res://icon.svg"
 
 enabled=PackedStringArray("res://addons/UDWG/plugin.cfg")
 
+[global_group]
+
+verts=""
+
 [layer_names]
 
 3d_physics/layer_1="Virtual Environment"
