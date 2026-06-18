@@ -179,7 +179,7 @@ func _physics_process(_delta: float) -> void:
             # check if the collider is part of the vert3d 
             var col_group = col.get_parent().get_groups()
             if col_group.size()> 0 and col_group[0] =="verts":
-                print("highlighting sphere")
+                #print("highlighting sphere")
                 # use the method on the parent to highlight the element
                 hovered_element = col.get_parent()
             if collider and collider.get_collision_layer_value(3):
@@ -279,7 +279,7 @@ func create_colored_geometry(verts):
     var arrays = []
     arrays.resize(Mesh.ARRAY_MAX)
     arrays[Mesh.ARRAY_VERTEX] = vertices
-    
+    print("the uvs are",uvs)
     arrays[Mesh.ARRAY_TEX_UV] = uvs
     
     # Create the Mesh.
