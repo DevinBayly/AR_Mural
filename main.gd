@@ -8,7 +8,7 @@ var scene_and_spatial_anchors_displayed: bool = true
 var selected_spatial_anchor_node: Node3D = null
 var global_environment_depth_enabled: bool = true
 var vert3d = preload("res://vert_3d.tscn")
-@onready var testicon = preload("res://icon.svg")
+@onready var testicon = preload("res://assets/mural_background.png")
 
 
 @onready var left_hand: XRController3D = $XROrigin3D/LeftHand
