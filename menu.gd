@@ -4,6 +4,8 @@ signal orderSliderUpdate
 # not sure, this might be from a previous part
 signal imageSelected
 signal backgroundDrawing
+signal calcCenter
+signal calcExtUV
 # signal that the main program uses to determine which animation to place on next real trigger click in the background
 signal animSelected
 @onready var orderSlider = $BoxContainer/HBoxContainer2/orderSlider
@@ -56,4 +58,14 @@ func update(p_position_right: Vector2) -> void:
 func _on_check_box_toggled(toggled_on: bool) -> void:
 	# emit the toggle result 
 	backgroundDrawing.emit(toggled_on)
+	pass # Replace with function body.
+
+
+func _on_calc_center_pressed() -> void:
+	calcCenter.emit()
+	pass # Replace with function body.
+
+
+func _on_calc_ext_uv_pressed() -> void:
+	calcExtUV.emit()
 	pass # Replace with function body.

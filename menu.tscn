@@ -70,6 +70,7 @@ text = "Place background"
 layout_mode = 2
 
 [node name="Animations" type="GridContainer" parent="." unique_id=236153862]
+visible = false
 layout_mode = 0
 offset_left = 212.0
 offset_top = 4.0
@@ -109,6 +110,28 @@ text = "roundcact"
 layout_mode = 2
 text = "ocotillo"
 
+[node name="BackgroundOptions" type="GridContainer" parent="." unique_id=571368194]
+layout_mode = 0
+offset_left = 212.0
+offset_top = 4.0
+offset_right = 426.0
+offset_bottom = 105.0
+columns = 3
+
+[node name="calcCenter" type="Button" parent="BackgroundOptions" unique_id=38920267]
+layout_mode = 2
+text = "calc center
+
+"
+
+[node name="calcExtUV" type="Button" parent="BackgroundOptions" unique_id=872831706]
+layout_mode = 2
+text = "calc UV exterior
+
+"
+
 [connection signal="drag_ended" from="BoxContainer/HBoxContainer/HSlider" to="." method="_on_scale_slider_drag_ended"]
 [connection signal="drag_ended" from="BoxContainer/HBoxContainer2/orderSlider" to="." method="_on_sort_order_slider_drag_ended"]
 [connection signal="toggled" from="BoxContainer/HBoxContainer3/CheckBox" to="." method="_on_check_box_toggled"]
+[connection signal="pressed" from="BackgroundOptions/calcCenter" to="." method="_on_calc_center_pressed"]
+[connection signal="pressed" from="BackgroundOptions/calcExtUV" to="." method="_on_calc_ext_uv_pressed"]

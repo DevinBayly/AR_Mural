@@ -8,6 +8,8 @@ var scene_and_spatial_anchors_displayed: bool = true
 var selected_spatial_anchor_node: Node3D = null
 var global_environment_depth_enabled: bool = true
 var vert3d = preload("res://vert_3d.tscn")
+# regular camera to help with getting 2d locations of elements
+@onready var cam = $XROrigin3D/XRCamera3D/Camera3D
 @onready var testicon = preload("res://assets/mural_background.png")
 
 
@@ -214,54 +216,45 @@ var dist_threshold = 5
 var last_intersections = []
 # helps us figure out the uvs of the border points created at intersections
 var last_intersections_uvs =[]
-var all_vertx: Array[Vector3] = []
 var triangle_vertices=[]
 var hovered_element
-var center = Vector3(0,0,0)
+var center = Vector2(0,0)
 var backgroundDrawing=false
 func calc_center():
-    var total = Vector3(0,0,0)
-    for v in all_vertx:
-        total +=v
-    center.x = total.x/all_vertx.size()
-    center.y = total.y/all_vertx.size()
-    center.z = total.z/all_vertx.size()
-func uv_edges():
-    for pair in edges:		
-        var start = pair[0]
-        var end = pair[1]
-        var dif = end.position - start.position
-        # dir from center
-        var centerdif = center - start.position
-        # figure out if the horizontal dif is bigger than the vertical
-        if abs(dif.x) > abs(dif.y):
-            # we have a horizontal edge
-            # figure out our v coordinate to hold steady
-            var v = 0
-            if centerdif.y > 0:
-                # center point is above our starting vector so we are a horizontal "top" line with a 0 as v
-                v = 1
-            # keep in mind that we might need to figure out if we are a top or bottom horizontal
-            if dif.x >0:
-                start.uv = Vector2(0,v)
-                end.uv = Vector2(1,v)
+    # use the group to get all the verts, calculate their position in a list
+    var all_verts = get_tree().get_nodes_in_group("verts")
+    var total = Vector2(0,0)
+    for v in all_verts:
+        if v.corner:
+            v.unprojectedPosition = cam.unproject_position(v.position)
+            total +=v.unprojectedPosition
+    center.x = total.x/4
+    center.y = total.y/4
+    uv_exterior()
+func uv_exterior():
+    var all_verts = get_tree().get_nodes_in_group("verts")
+
+    for v in all_verts:
+        var dif = center - v.unprojectedPosition
+        if dif.x >0:
+            # v left of center
+            if dif.y >0:
+                # v top left
+                v.uv = Vector2(0,0)
             else:
-                start.uv = Vector2(1,v)
-                end.uv = Vector2(0,v)
-            # figure out which one needs to have the 0 vs 1 in the u coordinate
+                v.uv = Vector2(0,1)
         else:
-            # we have a vertical edge
-            # figure out our u coordinate to hold steady
-            var u =1
-            if centerdif.x >0:
-                #means center point is to the right of our spot so we are a vertical line with 0 as our u
-                u =0
-            if dif.y>0:
-                start.uv = Vector2(u,1)
-                end.uv = Vector2(u,0)
+            if dif.y > 0:
+                #v top right
+                v.uv = Vector2(1,0)
             else:
-                start.uv = Vector2(u,0)
-                end.uv = Vector2(u,1)
+                v.uv = Vector2(1,1)
+    # establish edges from the all_vertx list    
+    # assume we are calculating for the initial bounding box 
+#
+#func uv_interior():
+    #
+
 func create_colored_geometry(verts):
     var vpos = []
     for vert in verts:
@@ -308,8 +301,8 @@ func clear_triangles_list():
         v.tri_cleared()
     triangle_vertices = []
 func draw_im() -> void:
-    calc_center()
-    uv_edges()
+    #calc_center()
+    #uv_edges()
     # go get all the other mesh2ds 
     # find the min and max of all their points
     # go back through each and update it's texture coordinates, and add a texture to the shape
@@ -357,21 +350,22 @@ func _on_right_hand_button_pressed(name: String) -> void:
     if backgroundDrawing:
         print(name)
         if name == "ax_button":
-            if col:
+            if hovered_element ==  col.get_parent():
+                # remove the new vert
+                hovered_element.queue_free()
+                # make sure to remove from the global tracking
+            elif col:
                 print("position",col_pos)
                 # maek a vertex there
                 var new_vert = vert3d.instantiate()
+                
                 new_vert.position = col_pos
                 new_vert.add_to_group("verts")
+                
                 add_child(new_vert)
-
+                if get_tree().get_nodes_in_group("verts").size() <=4:
+                    new_vert.corner = true
                 # this just makes sure we have a list of the edges
-                all_vertx.push_back(col_pos)
-                if prev:
-                    edges.push_back([prev,new_vert])
-                    prev = new_vert
-                else:
-                    prev = new_vert
         elif name == "by_button":
             # turn the hovered_element on for it's triangle 
             hovered_element.tri_clicked()

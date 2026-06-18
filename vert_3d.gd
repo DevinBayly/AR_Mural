@@ -8,6 +8,7 @@ var uv = Vector2()
 var unprojectedPosition = Vector2()
 # this array is used when we want to put 
 var interpolatingNeighbors
+var corner = false
 func tri_clicked():
 	included_in_tri = true
 	turn_on()
