@@ -6,6 +6,8 @@ signal imageSelected
 signal backgroundDrawing
 signal calcCenter
 signal calcExtUV
+signal calcIntUV
+signal removeMesh
 # signal that the main program uses to determine which animation to place on next real trigger click in the background
 signal animSelected
 @onready var orderSlider = $BoxContainer/HBoxContainer2/orderSlider
@@ -14,12 +16,13 @@ signal animSelected
 @onready var anims: GridContainer = $Animations
 @onready var pointer_right: ColorRect = $PointerRight
 @onready var Anims = $Animations
+@onready var BackgroundOps = $BackgroundOptions
 func _ready() -> void:
 	if background_check.is_pressed():
 		# hide the animations menu when pressed
 		anims.hide()
 		backgroundDrawing.emit()
-	background_check.toggled.connect(hide_anims)
+		BackgroundOps.show()
 	# go through and wire up connections for all of the button children
 	for child in Anims.get_children():
 		# wire up a function that handles the pressed event
@@ -29,11 +32,6 @@ func Anim_button_pressed(btn):
 	print("this btn was pressed",btn)
 	animSelected.emit(btn.text)
 	
-func hide_anims(toggled):
-	if toggled:
-		anims.hide()
-	else:
-		anims.show()
 
 
 func _input(event: InputEvent) -> void:
@@ -58,6 +56,8 @@ func update(p_position_right: Vector2) -> void:
 func _on_check_box_toggled(toggled_on: bool) -> void:
 	# emit the toggle result 
 	backgroundDrawing.emit(toggled_on)
+	Anims.visible = ! toggled_on
+	BackgroundOps.visible = toggled_on
 	pass # Replace with function body.
 
 
@@ -68,4 +68,14 @@ func _on_calc_center_pressed() -> void:
 
 func _on_calc_ext_uv_pressed() -> void:
 	calcExtUV.emit()
+	pass # Replace with function body.
+
+
+func _on_calc_int_uv_pressed() -> void:
+	calcIntUV.emit()
+	pass # Replace with function body.
+
+
+func _on_remove_mesh_pressed() -> void:
+	removeMesh.emit()
 	pass # Replace with function body.

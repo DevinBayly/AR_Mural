@@ -9,6 +9,17 @@ var unprojectedPosition = Vector2()
 # this array is used when we want to put 
 var interpolatingNeighbors
 var corner = false
+var triangles = []
+func remove_all():
+	for t in triangles:
+		t.queue_free()
+	triangles = []
+	queue_free()
+func remove_mesh():
+	for t in triangles:
+		if t:
+			t.queue_free()
+	triangles = []
 func tri_clicked():
 	included_in_tri = true
 	turn_on()

@@ -231,6 +231,11 @@ func calc_center():
     center.x = total.x/4
     center.y = total.y/4
     uv_exterior()
+# these are ordered in how we look at them, not any y axis flipped graphics sense, it will mean bottomLeft has a higher screen y value though
+var topLeft 
+var bottomLeft    
+var topRight
+var bottomRight
 func uv_exterior():
     var all_verts = get_tree().get_nodes_in_group("verts")
 
@@ -241,18 +246,80 @@ func uv_exterior():
             if dif.y >0:
                 # v top left
                 v.uv = Vector2(0,0)
+                topLeft = v
             else:
                 v.uv = Vector2(0,1)
+                bottomLeft = v
         else:
             if dif.y > 0:
                 #v top right
                 v.uv = Vector2(1,0)
+                topRight = v
             else:
                 v.uv = Vector2(1,1)
+                bottomRight= v
     # establish edges from the all_vertx list    
     # assume we are calculating for the initial bounding box 
 #
-#func uv_interior():
+var similarityThresh =20
+
+func uv_interior():
+    var all_verts = get_tree().get_nodes_in_group("verts")
+
+    for v in all_verts:
+        var newUV = Vector2(0,0)
+        v.unprojectedPosition = cam.unproject_position(v.position)
+        var stop = false
+        if not v.corner:
+            for other in [topLeft,bottomLeft,topRight,bottomRight]:
+                var dif = other.unprojectedPosition - v.unprojectedPosition 
+                if abs(dif.x) < similarityThresh:
+                    # this v is probably on a vertical edge
+                    # get dif from center
+                    var cenDif = center - v.unprojectedPosition
+                    if cenDif.x < 0:
+                        # we are on the right vertical edge
+                        newUV.x = 1
+                        # now calculate the vertical by seeing how far along the y edge we are
+                        newUV.y = (v.unprojectedPosition.y - topRight.unprojectedPosition.y)/(bottomRight.unprojectedPosition.y - topRight.unprojectedPosition.y )
+                        v.uv = newUV
+                        stop = true
+                    else:
+                        # we are on the left vertical edge
+                        newUV.x = 0
+                        # now calculate the vertical by seeing how far along the y edge we are
+                        newUV.y = (v.unprojectedPosition.y - topLeft.unprojectedPosition.y)/(bottomLeft.unprojectedPosition.y - topLeft.unprojectedPosition.y )
+                        v.uv = newUV
+                        stop = true
+                elif abs(dif.y) < similarityThresh:
+                    # this v is probably on a horizontal edge 
+                    
+                    # get dif from center
+                    var cenDif = center - v.unprojectedPosition
+                    if cenDif.y < 0:
+                        # we are on the bottom horizontal edge (using user viewing perspective)
+                        newUV.y = 1
+                        # now calculate the vertical by seeing how far along the y edge we are
+                        newUV.x = (v.unprojectedPosition.x - bottomLeft.unprojectedPosition.x)/(bottomRight.unprojectedPosition.x - bottomLeft.unprojectedPosition.x )
+                        v.uv = newUV
+                        stop=true
+                    else:
+                        # we are on the top horizontal edge
+                        newUV.y = 0
+                        # now calculate the vertical by seeing how far along the y edge we are
+                        newUV.x = (v.unprojectedPosition.x - topLeft.unprojectedPosition.x)/(topRight.unprojectedPosition.x - topLeft.unprojectedPosition.x )
+                        v.uv = newUV
+                        stop = true
+                if stop:
+                    break
+            if stop:
+                continue
+            else:
+                # we are a fully internal point, interpolate both the x and y
+                # lets pick corners that are opposite of eachother, if the user picks a plane that's really wonky then this might not be right
+                newUV.y = (v.unprojectedPosition.y - topLeft.unprojectedPosition.y)/(bottomRight.unprojectedPosition.y - topLeft.unprojectedPosition.y )
+                newUV.x = (v.unprojectedPosition.x - topLeft.unprojectedPosition.x)/(bottomRight.unprojectedPosition.x - topLeft.unprojectedPosition.x )
+                v.uv= newUV
     #
 
 func create_colored_geometry(verts):
@@ -286,14 +353,14 @@ func create_colored_geometry(verts):
     
     # make this a random color
     add_child(m)
+    # make ref for triangles to the verts
+    for v in verts:
+        v.triangles.push_back(m)
 
 func remove_meshes():
-    # also remove all meshes
-    var meshes = get_children()
-    
-    for m in meshes:
-        if m is MeshInstance3D:
-            m.queue_free()
+    var all_verts = get_tree().get_nodes_in_group("verts")
+    for v in all_verts:
+        v.remove_mesh()
 func clear_triangles_list():
     #clear the triangle list
     for v in triangle_vertices:
@@ -352,7 +419,7 @@ func _on_right_hand_button_pressed(name: String) -> void:
         if name == "ax_button":
             if hovered_element ==  col.get_parent():
                 # remove the new vert
-                hovered_element.queue_free()
+                hovered_element.remove_all()
                 # make sure to remove from the global tracking
             elif col:
                 print("position",col_pos)

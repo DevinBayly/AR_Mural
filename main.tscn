@@ -132,5 +132,7 @@ render_target_update_mode = 4
 [connection signal="backgroundDrawing" from="QuadViewport/Control" to="." method="_on_control_background_drawing"]
 [connection signal="calcCenter" from="QuadViewport/Control" to="." method="calc_center"]
 [connection signal="calcExtUV" from="QuadViewport/Control" to="." method="uv_exterior"]
+[connection signal="calcIntUV" from="QuadViewport/Control" to="." method="uv_interior"]
 [connection signal="orderSliderUpdate" from="QuadViewport/Control" to="." method="_on_control_order_slider_update"]
+[connection signal="removeMesh" from="QuadViewport/Control" to="." method="remove_meshes"]
 [connection signal="scaleSliderUpdate" from="QuadViewport/Control" to="." method="_on_control_scale_slider_update"]
