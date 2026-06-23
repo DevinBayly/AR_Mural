@@ -15,7 +15,7 @@ radius = 0.25
 height = 0.5
 
 [node name="vert_3d" type="Node3D" unique_id=1370350870]
-transform = Transform3D(0.285, 0, 0, 0, 0.285, 0, 0, 0, 0.285, 0, 0, 0)
+transform = Transform3D(0.08, 0, 0, 0, 0.08, 0, 0, 0, 0.08, 0, 0, 0)
 script = ExtResource("1_liw6m")
 
 [node name="Area3D" type="Area3D" parent="." unique_id=1411247948]

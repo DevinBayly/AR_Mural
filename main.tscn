@@ -22,7 +22,10 @@ sky = SubResource("Sky_dqyx0")
 [sub_resource type="BoxMesh" id="BoxMesh_d27jm"]
 size = Vector3(0.01, 0.01, 5)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7mycd"]
+
 [sub_resource type="SphereMesh" id="SphereMesh_kdpqm"]
+material = SubResource("StandardMaterial3D_7mycd")
 radius = 0.01
 height = 0.02
 

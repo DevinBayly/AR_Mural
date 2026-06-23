@@ -439,6 +439,8 @@ func create_colored_geometry(verts):
 	# Create the Mesh.
 	arr_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
 	var mat = StandardMaterial3D.new()
+	mat.render_priority  =-1
+	mat.no_depth_test = true
 	mat.albedo_color = Color(randf(),randf(),randf())
 	mat.cull_mode = BaseMaterial3D.CULL_DISABLED
 	arr_mesh.surface_set_material(0,mat)
@@ -491,6 +493,7 @@ func draw_im() -> void:
 			mat.albedo_texture = testicon
 			mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 			mat.cull_mode = BaseMaterial3D.CULL_DISABLED
+			mat.no_depth_test = true
 			mesh.surface_set_material(0,mat)
 			m.mesh = mesh
 			
