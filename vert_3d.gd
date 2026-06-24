@@ -29,17 +29,19 @@ func updateUvs():
 		# re add the data so the uvs get baked in properly
 		mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,mesh_array)
 		mesh.surface_set_material(0,previousMat)
-		
+		i+=1
 func remove_all():
 	for t in triangles:
 		t.queue_free()
 	triangles = []
+	triInds = []
 	queue_free()
 func remove_mesh():
 	for t in triangles:
 		if t:
 			t.queue_free()
 	triangles = []
+	triInds=[]
 func tri_clicked():
 	included_in_tri = true
 	turn_on()

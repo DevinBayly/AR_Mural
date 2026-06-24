@@ -538,8 +538,19 @@ func _on_right_hand_button_pressed(name: String) -> void:
 			triangle_vertices.push_back(hovered_element)
 			print("tri verts are ", triangle_vertices)
 			if triangle_vertices.size()==3:
-				create_colored_geometry(triangle_vertices)
+				# make a check for "repeat" triangle in list
+				var no_repeats = true
+				for i in range(0,3):
+					for j in range(0,3):
+						if i!=j:
+							var v1 = triangle_vertices[i]
+							var v2 = triangle_vertices[j]
+							if v1 == v2:
+								no_repeats = false
+				if no_repeats:
+					create_colored_geometry(triangle_vertices)
 				clear_triangles_list()
+				
 			# check if we have a
 		elif name == "grip_click":
 			# use this to draw over the triangles
@@ -617,14 +628,13 @@ func _on_right_hand_input_vector_2_changed(name: String, value: Vector2) -> void
 
 
 func _on_xr_controller_3d_input_vector_2_changed(name: String, value: Vector2) -> void:
-	print(value)
 	
 	# hav ethis check our last intersection and if it's a vertex3d then we should attempt to raise or lower it's uv
 			# check if the collider is part of the vert3d 
 	var col_group = col.get_parent().get_groups()
 	if col_group.size()> 0 and col_group[0] =="verts":
 		var vert = col.get_parent()
-		vert.uv+= value*.01
+		vert.uv+= value*.005
 		vert.updateUvs()
 	pass # Replace with function body.
 
