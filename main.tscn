@@ -19,7 +19,11 @@ background_mode = 1
 background_color = Color(0.3, 0.3, 0.3, 1)
 sky = SubResource("Sky_dqyx0")
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_272bh"]
+render_priority = 3
+
 [sub_resource type="BoxMesh" id="BoxMesh_d27jm"]
+material = SubResource("StandardMaterial3D_272bh")
 size = Vector3(0.01, 0.01, 5)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7mycd"]

@@ -179,11 +179,12 @@ func _physics_process(_delta: float) -> void:
 			var collider: CollisionObject3D = right_hand_pointer_raycast.get_collider()
 			col = collider
 			# check if the collider is part of the vert3d 
-			var col_group = col.get_parent().get_groups()
-			if col_group.size()> 0 and col_group[0] =="verts":
-				#print("highlighting sphere")
-				# use the method on the parent to highlight the element
-				hovered_element = col.get_parent()
+			if col:
+				var col_group = col.get_parent().get_groups()
+				if col_group.size()> 0 and col_group[0] =="verts":
+					#print("highlighting sphere")
+					# use the method on the parent to highlight the element
+					hovered_element = col.get_parent()
 			if collider and collider.get_collision_layer_value(3):
 				selected_spatial_anchor_node = collider
 				selected_spatial_anchor_node.turnOnAnimation()
@@ -631,13 +632,14 @@ func _on_xr_controller_3d_input_vector_2_changed(name: String, value: Vector2) -
 	
 	# hav ethis check our last intersection and if it's a vertex3d then we should attempt to raise or lower it's uv
 			# check if the collider is part of the vert3d 
-	var col_group = col.get_parent().get_groups()
-	if col_group.size()> 0 and col_group[0] =="verts":
-		#typically want opposite horizontal behavior
-		value.x*=-1
-		var vert = col.get_parent()
-		vert.uv+= value*.001
-		vert.updateUvs()
+	if col:
+		var col_group = col.get_parent().get_groups()
+		if col_group.size()> 0 and col_group[0] =="verts":
+			#typically want opposite horizontal behavior
+			value.x*=-1
+			var vert = col.get_parent()
+			vert.uv+= value*.001
+			vert.updateUvs()
 	pass # Replace with function body.
 
 
