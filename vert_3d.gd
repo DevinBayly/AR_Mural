@@ -10,6 +10,26 @@ var unprojectedPosition = Vector2()
 var interpolatingNeighbors
 var corner = false
 var triangles = []
+# these make it possible for an vertex to update it's UV info in all the triangles it belongs to
+var triInds =[]
+func updateUvs():
+	var i=0
+	for m in triangles:
+		var mesh:ArrayMesh = m.mesh
+		# iterate over the vertices in the triangle
+		var mesh_array = mesh.surface_get_arrays(0)
+		var vertices = mesh_array[Mesh.ARRAY_VERTEX]
+		var uvs = mesh_array[Mesh.ARRAY_TEX_UV]
+		# modify the particular uv with new data 
+		var triInd = triInds[i]
+		var previousMat = mesh.surface_get_material(0)
+		uvs[triInd] = uv
+		mesh_array[Mesh.ARRAY_TEX_UV] = uvs
+		mesh.surface_remove(0)
+		# re add the data so the uvs get baked in properly
+		mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,mesh_array)
+		mesh.surface_set_material(0,previousMat)
+		
 func remove_all():
 	for t in triangles:
 		t.queue_free()

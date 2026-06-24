@@ -450,9 +450,11 @@ func create_colored_geometry(verts):
 	# make this a random color
 	add_child(m)
 	# make ref for triangles to the verts
+	ind =0
 	for v in verts:
 		v.triangles.push_back(m)
-
+		v.triInds.push_back(ind)
+		ind+=1
 func remove_meshes():
 	var all_verts = get_tree().get_nodes_in_group("verts")
 	for v in all_verts:
@@ -607,13 +609,23 @@ func _on_scene_manager_scene_data_missing() -> void:
 
 
 func _on_right_hand_input_vector_2_changed(name: String, value: Vector2) -> void:
-	if selected_spatial_anchor_node:
-		print("scaling ",value)
-		selected_spatial_anchor_node.adjustScale(value)
+	#if selected_spatial_anchor_node:
+		#print("scaling ",value)
+		#selected_spatial_anchor_node.adjustScale(value)
+	
 	pass # Replace with function body.
 
 
 func _on_xr_controller_3d_input_vector_2_changed(name: String, value: Vector2) -> void:
+	print(value)
+	
+	# hav ethis check our last intersection and if it's a vertex3d then we should attempt to raise or lower it's uv
+			# check if the collider is part of the vert3d 
+	var col_group = col.get_parent().get_groups()
+	if col_group.size()> 0 and col_group[0] =="verts":
+		var vert = col.get_parent()
+		vert.uv+= value*.01
+		vert.updateUvs()
 	pass # Replace with function body.
 
 
@@ -649,4 +661,8 @@ func _on_control_scale_slider_update(sliderValue) -> void:
 func _on_control_background_drawing(toggle) -> void:
 	backgroundDrawing = toggle
 	## TODO consider  whether to hide the menu at this point?
+	pass # Replace with function body.
+
+
+func _on_right_hand_pointer_input_vector_2_changed(name: String, value: Vector2) -> void:
 	pass # Replace with function body.
