@@ -633,8 +633,10 @@ func _on_xr_controller_3d_input_vector_2_changed(name: String, value: Vector2) -
 			# check if the collider is part of the vert3d 
 	var col_group = col.get_parent().get_groups()
 	if col_group.size()> 0 and col_group[0] =="verts":
+		#typically want opposite horizontal behavior
+		value.x*=-1
 		var vert = col.get_parent()
-		vert.uv+= value*.005
+		vert.uv+= value*.001
 		vert.updateUvs()
 	pass # Replace with function body.
 
