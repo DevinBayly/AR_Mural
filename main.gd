@@ -439,10 +439,13 @@ func create_colored_geometry(verts):
 	
 	# Create the Mesh.
 	arr_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
-	var mat = StandardMaterial3D.new()
-	mat.render_priority  =-1
+
+	var mat: StandardMaterial3D = StandardMaterial3D.new()
+	mat.albedo_texture = testicon
+	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	mat.cull_mode = BaseMaterial3D.CULL_DISABLED
 	mat.no_depth_test = true
-	mat.albedo_color = Color(randf(),randf(),randf())
+	mat.render_priority  =-1
 	mat.cull_mode = BaseMaterial3D.CULL_DISABLED
 	arr_mesh.surface_set_material(0,mat)
 	var m = MeshInstance3D.new()
@@ -466,39 +469,8 @@ func clear_triangles_list():
 		# turn off their selection colors
 		v.tri_cleared()
 	triangle_vertices = []
-func draw_im() -> void:
-	#calc_center()
-	#uv_edges()
-	# go get all the other mesh2ds 
-	# find the min and max of all their points
-	# go back through each and update it's texture coordinates, and add a texture to the shape
-	# OR
-	# make one big ass mesh using all the triangles, and set all the uvs to correct values, and then at the end just assign a single texture
-	var meshes = get_children()
-	print("trying something different")
-	
-	
-	# use the min and max values to help us establish uv coordinates
-	for m in meshes:
-		if m is MeshInstance3D:
-			var mesh:ArrayMesh = m.mesh
-			# iterate over the vertices in the triangle
-			var mesh_array = mesh.surface_get_arrays(0)
-			var vertices = mesh_array[Mesh.ARRAY_VERTEX]
-			var uvs = mesh_array[Mesh.ARRAY_TEX_UV]
+
 			
-			mesh_array[Mesh.ARRAY_TEX_UV] = uvs
-			mesh.surface_remove(0)
-			# re add the data so the uvs get baked in properly
-			mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,mesh_array)
-			
-			var mat: StandardMaterial3D = StandardMaterial3D.new()
-			mat.albedo_texture = testicon
-			mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-			mat.cull_mode = BaseMaterial3D.CULL_DISABLED
-			mat.no_depth_test = true
-			mesh.surface_set_material(0,mat)
-			m.mesh = mesh
 			
 func _on_left_hand_button_pressed(name):
 	if name == "ax_button":
@@ -532,6 +504,13 @@ func _on_right_hand_button_pressed(name: String) -> void:
 				add_child(new_vert)
 				if get_tree().get_nodes_in_group("verts").size() <=4:
 					new_vert.corner = true
+				if get_tree().get_nodes_in_group("verts").size() ==4:
+					# launch the corner calculation so we don't need to click it
+					print("launching corner uv calculation")
+					calc_center()
+				if get_tree().get_nodes_in_group("verts").size() >4:
+					# run the interior calculation for the point created
+					uv_interior()
 				# this just makes sure we have a list of the edges
 		elif name == "by_button":
 			# turn the hovered_element on for it's triangle 
@@ -553,9 +532,7 @@ func _on_right_hand_button_pressed(name: String) -> void:
 				clear_triangles_list()
 				
 			# check if we have a
-		elif name == "grip_click":
-			# use this to draw over the triangles
-			draw_im()
+		
 	# only trigger this if the cursor isn't being interrupted by the menu
 	else:
 		if not on_menu:
@@ -636,7 +613,7 @@ func _on_xr_controller_3d_input_vector_2_changed(name: String, value: Vector2) -
 		var col_group = col.get_parent().get_groups()
 		if col_group.size()> 0 and col_group[0] =="verts":
 			#typically want opposite horizontal behavior
-			value.x*=-1
+			#value.x*=-1
 			var vert = col.get_parent()
 			vert.uv+= value*.001
 			vert.updateUvs()

@@ -20,7 +20,8 @@ background_color = Color(0.3, 0.3, 0.3, 1)
 sky = SubResource("Sky_dqyx0")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_272bh"]
-render_priority = 3
+render_priority = 5
+no_depth_test = true
 
 [sub_resource type="BoxMesh" id="BoxMesh_d27jm"]
 material = SubResource("StandardMaterial3D_272bh")
@@ -120,7 +121,7 @@ unique_name_in_owner = true
 [node name="QuadViewport" type="SubViewport" parent="." unique_id=2117494402]
 disable_3d = true
 gui_embed_subwindows = true
-size = Vector2i(1024, 256)
+size = Vector2i(488, 256)
 render_target_update_mode = 4
 
 [node name="Control" parent="QuadViewport" unique_id=942888997 instance=ExtResource("6_7mycd")]
@@ -139,9 +140,5 @@ projection = 1
 [connection signal="input_vector2_changed" from="XROrigin3D/XRController3D" to="." method="_on_xr_controller_3d_input_vector_2_changed"]
 [connection signal="animSelected" from="QuadViewport/Control" to="." method="_on_control_anim_selected"]
 [connection signal="backgroundDrawing" from="QuadViewport/Control" to="." method="_on_control_background_drawing"]
-[connection signal="calcCenter" from="QuadViewport/Control" to="." method="calc_center"]
-[connection signal="calcExtUV" from="QuadViewport/Control" to="." method="uv_exterior"]
-[connection signal="calcIntUV" from="QuadViewport/Control" to="." method="uv_interior"]
 [connection signal="orderSliderUpdate" from="QuadViewport/Control" to="." method="_on_control_order_slider_update"]
-[connection signal="removeMesh" from="QuadViewport/Control" to="." method="remove_meshes"]
 [connection signal="scaleSliderUpdate" from="QuadViewport/Control" to="." method="_on_control_scale_slider_update"]
