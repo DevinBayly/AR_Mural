@@ -44,6 +44,7 @@ height = 0.05
 
 [node name="Main" type="Node3D" unique_id=1726985418]
 script = ExtResource("1_fsva1")
+maximum_refresh_rate = null
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=353867311]
 environment = SubResource("Environment_m0xew")
@@ -141,4 +142,5 @@ projection = 1
 [connection signal="animSelected" from="QuadViewport/Control" to="." method="_on_control_anim_selected"]
 [connection signal="backgroundDrawing" from="QuadViewport/Control" to="." method="_on_control_background_drawing"]
 [connection signal="orderSliderUpdate" from="QuadViewport/Control" to="." method="_on_control_order_slider_update"]
+[connection signal="removeMesh" from="QuadViewport/Control" to="." method="remove_meshes"]
 [connection signal="scaleSliderUpdate" from="QuadViewport/Control" to="." method="_on_control_scale_slider_update"]

@@ -264,7 +264,7 @@ func position_cam() -> void:
 	
 	
 	# get normal from cross product
-	var v3 = v1.cross(v2)
+	var v3 = v1.cross(v2)*-1
 	#v3.z*=-1
 	#if v3.z<0:
 		#v3.z*=-1
@@ -484,6 +484,7 @@ func _on_left_hand_button_pressed(name):
 # used to help anchor pick which image it will be displaying
 var imageId=0
 var imageScale = 1
+var spritePriority=2
 var on_menu = false
 func _on_right_hand_button_pressed(name: String) -> void:
 	if backgroundDrawing:
@@ -558,8 +559,7 @@ func _on_right_hand_button_pressed(name: String) -> void:
 						else:
 							anchor_transform.basis = Basis.looking_at(right_hand_pointer_raycast.get_collision_normal())
 
-						spatial_anchor_manager.create_anchor(anchor_transform, {scale=imageScale,priority=0,imageid=imageId})
-						imageId+=1
+						spatial_anchor_manager.create_anchor(anchor_transform, {scale=imageScale,priority=spritePriority,imageid=imageId})
 						
 			elif name == "ax_button":
 				# remove the previous anchor
@@ -638,14 +638,18 @@ func _on_control_anim_selected(btn_name) -> void:
 	pass # Replace with function body.
 
 
-func _on_control_order_slider_update() -> void:
+func _on_control_order_slider_update(orderValue) -> void:
 	# use these to update the previously selected element
+	spritePriority = orderValue
+	if last_selected_node:
+		last_selected_node.setPriority(orderValue)
 	pass # Replace with function body.
 
 
 func _on_control_scale_slider_update(sliderValue) -> void:
 	if last_selected_node:
 		last_selected_node.sliderScale(sliderValue)
+	imageScale = sliderValue
 	pass # Replace with function body.
 
 

@@ -49,6 +49,10 @@ func sliderScale(newScale):
 		animSprit.scale = Vector3(newScale,newScale,newScale)
 	else:
 		print("no sprite?")
+func setPriority(newOrder):
+	if animSprit:
+		spritepriority = newOrder
+		animSprit.render_priority = spritepriority
 func turnOnAnimation():
 	
 	if triggered ==false:

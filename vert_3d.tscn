@@ -1,12 +1,14 @@
 [gd_scene format=3 uid="uid://uio1i5be8av0"]
 
-[ext_resource type="Script" uid="uid://c66s7tt2si755" path="res://vert_3d.gd" id="1_liw6m"]
+[ext_resource type="Script" uid="uid://h3qvonmjejmd" path="res://vert_3d.gd" id="1_liw6m"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_dnppb"]
 size = Vector3(0.5, 0.5, 0.5)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6pf4a"]
 resource_local_to_scene = true
+render_priority = 4
+no_depth_test = true
 
 [sub_resource type="SphereMesh" id="SphereMesh_liw6m"]
 resource_local_to_scene = true
