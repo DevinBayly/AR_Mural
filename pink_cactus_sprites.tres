@@ -1,108 +1,108 @@
 [gd_resource type="SpriteFrames" format=3 uid="uid://subxa6rtegru"]
 
-[ext_resource type="Texture2D" uid="uid://efihtmue6obw" path="res://sprites/1_pink_cactus_0001.png" id="1_5p7rx"]
-[ext_resource type="Texture2D" uid="uid://cmlhbl8q1brvp" path="res://sprites/1_pink_cactus_0002.png" id="2_4ofoo"]
-[ext_resource type="Texture2D" uid="uid://b088rw03q25aw" path="res://sprites/1_pink_cactus_0003.png" id="3_gei51"]
-[ext_resource type="Texture2D" uid="uid://bu2ps7atnpgkr" path="res://sprites/1_pink_cactus_0004.png" id="4_usqdg"]
-[ext_resource type="Texture2D" uid="uid://c4dgojprihrcp" path="res://sprites/1_pink_cactus_0005.png" id="5_d8icm"]
-[ext_resource type="Texture2D" uid="uid://cqsu2mti1hjag" path="res://sprites/1_pink_cactus_0006.png" id="6_3q38m"]
-[ext_resource type="Texture2D" uid="uid://dwwuwpp0dwq60" path="res://sprites/1_pink_cactus_0007.png" id="7_um5kq"]
-[ext_resource type="Texture2D" uid="uid://be4xvahb8n0n8" path="res://sprites/1_pink_cactus_0008.png" id="8_res0y"]
-[ext_resource type="Texture2D" uid="uid://x856gxt3v7c7" path="res://sprites/1_pink_cactus_0009.png" id="9_rf6yw"]
-[ext_resource type="Texture2D" uid="uid://b1p5jnybclbq8" path="res://sprites/1_pink_cactus_0010.png" id="10_dsymo"]
-[ext_resource type="Texture2D" uid="uid://7m5gm6idkiiw" path="res://sprites/1_pink_cactus_0011.png" id="11_apmwg"]
-[ext_resource type="Texture2D" uid="uid://b573ysi6c8lkb" path="res://sprites/1_pink_cactus_0012.png" id="12_k3ju6"]
-[ext_resource type="Texture2D" uid="uid://b82kgtqs0ahiw" path="res://sprites/1_pink_cactus_0013.png" id="13_v2mhk"]
-[ext_resource type="Texture2D" uid="uid://dh5dej7shga3x" path="res://sprites/1_pink_cactus_0014.png" id="14_8lyie"]
-[ext_resource type="Texture2D" uid="uid://qalh2c8krikg" path="res://sprites/1_pink_cactus_0015.png" id="15_12tim"]
-[ext_resource type="Texture2D" uid="uid://cwe8fhsxeaoi3" path="res://sprites/1_pink_cactus_0016.png" id="16_2ppnp"]
-[ext_resource type="Texture2D" uid="uid://deky8jr756bd4" path="res://sprites/1_pink_cactus_0017.png" id="17_aiysl"]
-[ext_resource type="Texture2D" uid="uid://bdinbvunuhhmu" path="res://sprites/1_pink_cactus_0018.png" id="18_d5pwj"]
-[ext_resource type="Texture2D" uid="uid://dlfxgvt4msxl0" path="res://sprites/1_pink_cactus_0019.png" id="19_3k0yb"]
-[ext_resource type="Texture2D" uid="uid://bbst7qjvtx043" path="res://sprites/1_pink_cactus_0020.png" id="20_o25u2"]
-[ext_resource type="Texture2D" uid="uid://cg6myuyfudf6u" path="res://sprites/1_pink_cactus_0021.png" id="21_pt2j5"]
-[ext_resource type="Texture2D" uid="uid://byu3ad7le828v" path="res://sprites/1_pink_cactus_0022.png" id="22_g07a1"]
-[ext_resource type="Texture2D" uid="uid://do3iv5wg3t1kl" path="res://sprites/1_pink_cactus_0023.png" id="23_u6q3l"]
-[ext_resource type="Texture2D" uid="uid://f25phcl5jwul" path="res://sprites/1_pink_cactus_0024.png" id="24_bo5aq"]
-[ext_resource type="Texture2D" uid="uid://cewohx0bn8ilw" path="res://sprites/1_pink_cactus_0025.png" id="25_myccb"]
+[ext_resource type="Texture2D" uid="uid://g6qwypdhsxeq" path="res://sprites/1_pink cactus_0001.png" id="1_5u5le"]
+[ext_resource type="Texture2D" uid="uid://bku670opkp2oq" path="res://sprites/1_pink cactus_0002.png" id="2_3odkw"]
+[ext_resource type="Texture2D" uid="uid://de8f66bxvf3xg" path="res://sprites/1_pink cactus_0003.png" id="3_4u6cs"]
+[ext_resource type="Texture2D" uid="uid://cepy1ffmitln5" path="res://sprites/1_pink cactus_0004.png" id="4_h14lk"]
+[ext_resource type="Texture2D" uid="uid://fuepdhb8mcx7" path="res://sprites/1_pink cactus_0005.png" id="5_1kixv"]
+[ext_resource type="Texture2D" uid="uid://u3mnvdce6n5l" path="res://sprites/1_pink cactus_0006.png" id="6_g4sef"]
+[ext_resource type="Texture2D" uid="uid://ddocfny3ofoqj" path="res://sprites/1_pink cactus_0007.png" id="7_cs0sg"]
+[ext_resource type="Texture2D" uid="uid://ddvnxmhtpt6t3" path="res://sprites/1_pink cactus_0008.png" id="8_ij1gr"]
+[ext_resource type="Texture2D" uid="uid://c2km2gs0wpuew" path="res://sprites/1_pink cactus_0009.png" id="9_fqfeg"]
+[ext_resource type="Texture2D" uid="uid://b84avyenxaxe2" path="res://sprites/1_pink cactus_0010.png" id="10_kxs3g"]
+[ext_resource type="Texture2D" uid="uid://boaxjgvhdhpc6" path="res://sprites/1_pink cactus_0011.png" id="11_3nnsd"]
+[ext_resource type="Texture2D" uid="uid://byunn5fupom1m" path="res://sprites/1_pink cactus_0012.png" id="12_iypdh"]
+[ext_resource type="Texture2D" uid="uid://ddh3w2jnfw55g" path="res://sprites/1_pink cactus_0013.png" id="13_20nvb"]
+[ext_resource type="Texture2D" uid="uid://cs7aqunn032id" path="res://sprites/1_pink cactus_0014.png" id="14_cudcy"]
+[ext_resource type="Texture2D" uid="uid://coaplvkdl6jk7" path="res://sprites/1_pink cactus_0015.png" id="15_0x7tq"]
+[ext_resource type="Texture2D" uid="uid://bl4o0aaepp73j" path="res://sprites/1_pink cactus_0016.png" id="16_mg1xi"]
+[ext_resource type="Texture2D" uid="uid://c8ec5ldaaqmdg" path="res://sprites/1_pink cactus_0017.png" id="17_0wesc"]
+[ext_resource type="Texture2D" uid="uid://pwjsfpau70ws" path="res://sprites/1_pink cactus_0018.png" id="18_d05d7"]
+[ext_resource type="Texture2D" uid="uid://mp74qlsuxjj1" path="res://sprites/1_pink cactus_0019.png" id="19_65aop"]
+[ext_resource type="Texture2D" uid="uid://bm3ewpwpvwckd" path="res://sprites/1_pink cactus_0020.png" id="20_xnsm3"]
+[ext_resource type="Texture2D" uid="uid://b20uebldig4g" path="res://sprites/1_pink cactus_0021.png" id="21_aa6ad"]
+[ext_resource type="Texture2D" uid="uid://caql8o4syi7ib" path="res://sprites/1_pink cactus_0022.png" id="22_2la0q"]
+[ext_resource type="Texture2D" uid="uid://c7eega11o7rud" path="res://sprites/1_pink cactus_0023.png" id="23_a57g5"]
+[ext_resource type="Texture2D" uid="uid://p5hr6emqnvkk" path="res://sprites/1_pink cactus_0024.png" id="24_3ms3j"]
+[ext_resource type="Texture2D" uid="uid://cdavu6bkmv4s2" path="res://sprites/1_pink cactus_0025.png" id="25_j7b8c"]
 
 [resource]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_5p7rx")
+"texture": ExtResource("1_5u5le")
 }, {
 "duration": 1.0,
-"texture": ExtResource("2_4ofoo")
+"texture": ExtResource("2_3odkw")
 }, {
 "duration": 1.0,
-"texture": ExtResource("3_gei51")
+"texture": ExtResource("3_4u6cs")
 }, {
 "duration": 1.0,
-"texture": ExtResource("4_usqdg")
+"texture": ExtResource("4_h14lk")
 }, {
 "duration": 1.0,
-"texture": ExtResource("5_d8icm")
+"texture": ExtResource("5_1kixv")
 }, {
 "duration": 1.0,
-"texture": ExtResource("6_3q38m")
+"texture": ExtResource("6_g4sef")
 }, {
 "duration": 1.0,
-"texture": ExtResource("7_um5kq")
+"texture": ExtResource("7_cs0sg")
 }, {
 "duration": 1.0,
-"texture": ExtResource("8_res0y")
+"texture": ExtResource("8_ij1gr")
 }, {
 "duration": 1.0,
-"texture": ExtResource("9_rf6yw")
+"texture": ExtResource("9_fqfeg")
 }, {
 "duration": 1.0,
-"texture": ExtResource("10_dsymo")
+"texture": ExtResource("10_kxs3g")
 }, {
 "duration": 1.0,
-"texture": ExtResource("11_apmwg")
+"texture": ExtResource("11_3nnsd")
 }, {
 "duration": 1.0,
-"texture": ExtResource("12_k3ju6")
+"texture": ExtResource("12_iypdh")
 }, {
 "duration": 1.0,
-"texture": ExtResource("13_v2mhk")
+"texture": ExtResource("13_20nvb")
 }, {
 "duration": 1.0,
-"texture": ExtResource("14_8lyie")
+"texture": ExtResource("14_cudcy")
 }, {
 "duration": 1.0,
-"texture": ExtResource("15_12tim")
+"texture": ExtResource("15_0x7tq")
 }, {
 "duration": 1.0,
-"texture": ExtResource("16_2ppnp")
+"texture": ExtResource("16_mg1xi")
 }, {
 "duration": 1.0,
-"texture": ExtResource("17_aiysl")
+"texture": ExtResource("17_0wesc")
 }, {
 "duration": 1.0,
-"texture": ExtResource("18_d5pwj")
+"texture": ExtResource("18_d05d7")
 }, {
 "duration": 1.0,
-"texture": ExtResource("19_3k0yb")
+"texture": ExtResource("19_65aop")
 }, {
 "duration": 1.0,
-"texture": ExtResource("20_o25u2")
+"texture": ExtResource("20_xnsm3")
 }, {
 "duration": 1.0,
-"texture": ExtResource("21_pt2j5")
+"texture": ExtResource("21_aa6ad")
 }, {
 "duration": 1.0,
-"texture": ExtResource("22_g07a1")
+"texture": ExtResource("22_2la0q")
 }, {
 "duration": 1.0,
-"texture": ExtResource("23_u6q3l")
+"texture": ExtResource("23_a57g5")
 }, {
 "duration": 1.0,
-"texture": ExtResource("24_bo5aq")
+"texture": ExtResource("24_3ms3j")
 }, {
 "duration": 1.0,
-"texture": ExtResource("25_myccb")
+"texture": ExtResource("25_j7b8c")
 }],
 "loop": true,
 "name": &"default",
