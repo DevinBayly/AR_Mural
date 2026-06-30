@@ -140,6 +140,7 @@ projection = 1
 [connection signal="input_vector2_changed" from="XROrigin3D/XRController3D" to="." method="_on_xr_controller_3d_input_vector_2_changed"]
 [connection signal="animSelected" from="QuadViewport/Control" to="." method="_on_control_anim_selected"]
 [connection signal="backgroundDrawing" from="QuadViewport/Control" to="." method="_on_control_background_drawing"]
+[connection signal="convert" from="QuadViewport/Control" to="." method="_on_control_convert"]
 [connection signal="orderSliderUpdate" from="QuadViewport/Control" to="." method="_on_control_order_slider_update"]
 [connection signal="removeMesh" from="QuadViewport/Control" to="." method="remove_meshes"]
 [connection signal="scaleSliderUpdate" from="QuadViewport/Control" to="." method="_on_control_scale_slider_update"]

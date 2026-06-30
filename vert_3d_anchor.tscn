@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://bnjc8tpfbs8hy"]
+
+[ext_resource type="Script" uid="uid://cwsi02jcysabp" path="res://vert3danchor.gd" id="1_yl50w"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dykg1"]
+transparency = 1
+albedo_color = Color(0.972549, 0, 0.5019608, 0.4509804)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0sc5c"]
+material = SubResource("StandardMaterial3D_dykg1")
+
+[node name="Vert3dAnchor" type="Node3D" unique_id=153205765]
+script = ExtResource("1_yl50w")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1592487439]
+mesh = SubResource("BoxMesh_0sc5c")

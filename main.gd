@@ -114,11 +114,16 @@ func save_spatial_anchors_to_file() -> void:
 
 func _on_spatial_anchor_tracked(_anchor_node: XRAnchor3D, _spatial_entity: OpenXRFbSpatialEntity, is_new: bool) -> void:
 	if is_new:
-		save_spatial_anchors_to_file()
+		#save_spatial_anchors_to_file()
+		print("SKIPPING SAVE, FIX later")
+		pass
 
 
 func _on_spatial_anchor_untracked(_anchor_node: XRAnchor3D, _spatial_entity: OpenXRFbSpatialEntity) -> void:
-	save_spatial_anchors_to_file()
+	print("SKIPPING SAVE, FIX later")
+
+	#save_spatial_anchors_to_file()
+	pass
 
 
 func _on_openxr_fb_render_model_loaded(render_model: OpenXRFbRenderModel) -> void:
@@ -681,3 +686,15 @@ func writeMesh():
 	print(JSON.stringify(res_list))
 		
 		
+
+
+func _on_control_convert() -> void:
+	# write all the vert3ds as spatial anchors
+	var all_verts = get_tree().get_nodes_in_group("verts")
+	for v in all_verts:
+			
+		var anchor_transform = Transform3D()
+		anchor_transform.origin =  v.position
+		anchor_transform.basis = v.basis
+		spatial_anchor_manager.create_anchor(anchor_transform, {"uv":[v.uv.x,v.uv.y],"abInds":v.abInds,"triList":v.triList})
+	pass # Replace with function body.

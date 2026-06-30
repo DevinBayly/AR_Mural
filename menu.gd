@@ -4,9 +4,7 @@ signal orderSliderUpdate
 # not sure, this might be from a previous part
 signal imageSelected
 signal backgroundDrawing
-signal calcCenter
-signal calcExtUV
-signal calcIntUV
+signal convert
 signal removeMesh
 # signal that the main program uses to determine which animation to place on next real trigger click in the background
 signal animSelected
@@ -61,21 +59,12 @@ func _on_check_box_toggled(toggled_on: bool) -> void:
 	pass # Replace with function body.
 
 
-func _on_calc_center_pressed() -> void:
-	calcCenter.emit()
-	pass # Replace with function body.
-
-
-func _on_calc_ext_uv_pressed() -> void:
-	calcExtUV.emit()
-	pass # Replace with function body.
-
-
-func _on_calc_int_uv_pressed() -> void:
-	calcIntUV.emit()
-	pass # Replace with function body.
-
 
 func _on_remove_mesh_pressed() -> void:
 	removeMesh.emit()
+	pass # Replace with function body.
+
+
+func _on_convert_pressed() -> void:
+	convert.emit()
 	pass # Replace with function body.

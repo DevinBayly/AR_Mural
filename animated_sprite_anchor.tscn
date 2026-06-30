@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://cp6edor6xeh5q"]
+
+[ext_resource type="Script" uid="uid://md7c1gi2fouw" path="res://animated_sprite_anchor.gd" id="1_rb1tq"]
+[ext_resource type="Texture2D" uid="uid://kp4rwi84h64b" path="res://background.tres" id="2_a2a7g"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0sc5c"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0sc5c"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_lw2g4"]
+material = SubResource("StandardMaterial3D_0sc5c")
+
+[node name="AnimatedSpriteAnchor" type="Area3D" unique_id=1659001440]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_rb1tq")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="." unique_id=687091165]
+flip_h = true
+pixel_size = 0.004
+autoplay = "default"
+
+[node name="Sprite3D" type="Sprite3D" parent="." unique_id=2018938603]
+render_priority = -1
+texture = ExtResource("2_a2a7g")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1252709203]
+transform = Transform3D(0.25, 0, 0, 0, -1.092785e-08, 0.25, 0, -0.25, -1.092785e-08, 0, 0, -0.025)
+shape = SubResource("BoxShape3D_0sc5c")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1732019352]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+visible = false
+mesh = SubResource("BoxMesh_lw2g4")
