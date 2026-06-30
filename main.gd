@@ -431,7 +431,7 @@ var triangleId =0
 func create_colored_geometry(verts):
 	var vpos = []
 	for vert in verts:
-		vpos.push_back(vert.position)
+		vpos.push_back(vert.global_position)
 	var vertices = PackedVector3Array()
 	var uvs = PackedVector2Array()
 	var ind =0
@@ -466,6 +466,7 @@ func create_colored_geometry(verts):
 	add_child(m)
 	# make ref for triangles to the verts
 	ind =0
+	# TODO add some indication these triangles were made on load vs by hand
 	for v in verts:
 		v.triangles.push_back(m)
 		v.triList.push_back(triangleId)
@@ -473,6 +474,7 @@ func create_colored_geometry(verts):
 		ind+=1
 	triangleId+=1
 	# write mesh out after each triangle gets made
+	# TODO not sure this is still doing anything useful
 	writeMesh()
 func remove_meshes():
 	var all_verts = get_tree().get_nodes_in_group("verts")
@@ -501,6 +503,22 @@ var imageId=0
 var imageScale = 1
 var spritePriority=2
 var on_menu = false
+func add_vertex_to_triangle(v):
+	triangle_vertices.push_back(v)
+	print("tri verts are ", triangle_vertices)
+	if triangle_vertices.size()==3:
+		# make a check for "repeat" triangle in list
+		var no_repeats = true
+		for i in range(0,3):
+			for j in range(0,3):
+				if i!=j:
+					var v1 = triangle_vertices[i]
+					var v2 = triangle_vertices[j]
+					if v1 == v2:
+						no_repeats = false
+		if no_repeats:
+			create_colored_geometry(triangle_vertices)
+		clear_triangles_list()
 func _on_right_hand_button_pressed(name: String) -> void:
 	if backgroundDrawing:
 		print(name)
@@ -530,21 +548,7 @@ func _on_right_hand_button_pressed(name: String) -> void:
 		elif name == "by_button":
 			# turn the hovered_element on for it's triangle 
 			hovered_element.tri_clicked()
-			triangle_vertices.push_back(hovered_element)
-			print("tri verts are ", triangle_vertices)
-			if triangle_vertices.size()==3:
-				# make a check for "repeat" triangle in list
-				var no_repeats = true
-				for i in range(0,3):
-					for j in range(0,3):
-						if i!=j:
-							var v1 = triangle_vertices[i]
-							var v2 = triangle_vertices[j]
-							if v1 == v2:
-								no_repeats = false
-				if no_repeats:
-					create_colored_geometry(triangle_vertices)
-				clear_triangles_list()
+			add_vertex_to_triangle(hovered_element)
 				
 			# check if we have a
 		
@@ -722,6 +726,11 @@ func makeMesh():
 			triVerts[abInd] = v
 			vertDict[triId] = triVerts
 	print(vertDict)
+	# now iterate over the triangles and add them the way the rest of the code does
+	for key in vertDict:
+		var vertices = vertDict.get(key)
+		for v in vertices:
+			add_vertex_to_triangle(v)
 func _on_control_make_mesh() -> void:
 	makeMesh()
 	pass # Replace with function body.
