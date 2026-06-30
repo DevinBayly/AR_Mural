@@ -114,15 +114,13 @@ func save_spatial_anchors_to_file() -> void:
 
 func _on_spatial_anchor_tracked(_anchor_node: XRAnchor3D, _spatial_entity: OpenXRFbSpatialEntity, is_new: bool) -> void:
 	if is_new:
-		#save_spatial_anchors_to_file()
-		print("SKIPPING SAVE, FIX later")
+		save_spatial_anchors_to_file()
 		pass
 
 
 func _on_spatial_anchor_untracked(_anchor_node: XRAnchor3D, _spatial_entity: OpenXRFbSpatialEntity) -> void:
-	print("SKIPPING SAVE, FIX later")
 
-	#save_spatial_anchors_to_file()
+	save_spatial_anchors_to_file()
 	pass
 
 
