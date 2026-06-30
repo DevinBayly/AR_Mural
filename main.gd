@@ -51,7 +51,7 @@ func _ready():
 
 	for render_model in [%LeftControllerFbRenderModel, %RightControllerFbRenderModel]:
 		render_model.openxr_fb_render_model_loaded.connect(_on_openxr_fb_render_model_loaded.bind(render_model))
-
+	
 
 func _on_openxr_session_begun() -> void:
 	if _setup:
@@ -89,6 +89,12 @@ func load_spatial_anchors_from_file() -> void:
 		# TODO make this go over keys separately so we can determine which to load with the default scene, or with the mesh rebuilt data
 		# or we rewrite the spatial anchor to be flexible to picking what kind of scene it instantiates
 		spatial_anchor_manager.load_anchors(anchor_data.keys(), anchor_data, OpenXRFbSpatialEntity.STORAGE_LOCAL, true)
+		# by this point all the anchors are in existence, we should be able to just start making triangles
+		# set time outs and chekc back whether there's results in the verts category
+		# hopefully we don't have to try to match number of loaded verts
+		
+		
+					
 		#var lim = 8
 		#for anchor_key in anchor_data:
 			#var data =anchor_data[anchor_key]
@@ -509,7 +515,6 @@ func _on_right_hand_button_pressed(name: String) -> void:
 				var new_vert = vert3d.instantiate()
 				
 				new_vert.position = col_pos
-				new_vert.add_to_group("verts")
 				
 				add_child(new_vert)
 				if get_tree().get_nodes_in_group("verts").size() <=4:
@@ -695,4 +700,28 @@ func _on_control_convert() -> void:
 		anchor_transform.origin =  v.position
 		anchor_transform.basis = v.basis
 		spatial_anchor_manager.create_anchor(anchor_transform, {"uv":[v.uv.x,v.uv.y],"abInds":v.abInds,"triList":v.triList})
+	pass # Replace with function body.
+
+func makeMesh():
+
+	var verts = get_tree().get_nodes_in_group("verts")
+	
+	var vertDict ={}
+	print("all the verts",verts)
+	for v in verts:
+		for i in range(v.triList.size()):
+			var triId = v.triList[i]
+			var abInd = v.abInds[i]
+			var triVerts = vertDict.get(triId)
+			if triVerts == null:
+				var placeholderDictValue = []
+				placeholderDictValue.resize(3)
+				placeholderDictValue.fill(null)
+				triVerts = placeholderDictValue
+			# now set the vert ref to the right location in the triangle vertex list, right location being specified by the array buffer index
+			triVerts[abInd] = v
+			vertDict[triId] = triVerts
+	print(vertDict)
+func _on_control_make_mesh() -> void:
+	makeMesh()
 	pass # Replace with function body.

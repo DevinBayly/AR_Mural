@@ -16,7 +16,7 @@ material = SubResource("StandardMaterial3D_6pf4a")
 radius = 0.25
 height = 0.5
 
-[node name="vert_3d" type="Node3D" unique_id=1370350870]
+[node name="vert_3d" type="Node3D" unique_id=1370350870 groups=["verts"]]
 transform = Transform3D(0.08, 0, 0, 0, 0.08, 0, 0, 0, 0.08, 0, 0, 0)
 script = ExtResource("1_liw6m")
 

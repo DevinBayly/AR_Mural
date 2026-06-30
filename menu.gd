@@ -2,6 +2,7 @@ extends Control
 signal scaleSliderUpdate
 signal orderSliderUpdate
 # not sure, this might be from a previous part
+signal makeMesh
 signal imageSelected
 signal backgroundDrawing
 signal convert
@@ -67,4 +68,9 @@ func _on_remove_mesh_pressed() -> void:
 
 func _on_convert_pressed() -> void:
 	convert.emit()
+	pass # Replace with function body.
+
+
+func _on_make_mesh_pressed() -> void:
+	makeMesh.emit()
 	pass # Replace with function body.

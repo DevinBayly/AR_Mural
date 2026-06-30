@@ -118,6 +118,11 @@ offset_right = 426.0
 offset_bottom = 105.0
 columns = 3
 
+[node name="makeMesh" type="Button" parent="BackgroundOptions" unique_id=6852360]
+layout_mode = 2
+text = "makeMesh
+"
+
 [node name="removeMesh" type="Button" parent="BackgroundOptions" unique_id=1118061209]
 layout_mode = 2
 text = "remove Mesh
@@ -131,5 +136,6 @@ text = "convert
 [connection signal="drag_ended" from="BoxContainer/HBoxContainer/HSlider" to="." method="_on_scale_slider_drag_ended"]
 [connection signal="drag_ended" from="BoxContainer/HBoxContainer2/orderSlider" to="." method="_on_sort_order_slider_drag_ended"]
 [connection signal="toggled" from="BoxContainer/HBoxContainer3/CheckBox" to="." method="_on_check_box_toggled"]
+[connection signal="pressed" from="BackgroundOptions/makeMesh" to="." method="_on_make_mesh_pressed"]
 [connection signal="pressed" from="BackgroundOptions/removeMesh" to="." method="_on_remove_mesh_pressed"]
 [connection signal="pressed" from="BackgroundOptions/convert" to="." method="_on_convert_pressed"]
