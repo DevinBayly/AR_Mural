@@ -8,10 +8,12 @@ var uv = Vector2()
 var unprojectedPosition = Vector2()
 # this array is used when we want to put 
 var interpolatingNeighbors
+var triList =[]
 var corner = false
 var triangles = []
 # these make it possible for an vertex to update it's UV info in all the triangles it belongs to
-var triInds =[]
+#ab is short for array buffer, since this is the ind that position and uv info is stored for the result triangle
+var abInds =[]
 func updateUvs():
 	var i=0
 	for m in triangles:
@@ -21,9 +23,9 @@ func updateUvs():
 		var vertices = mesh_array[Mesh.ARRAY_VERTEX]
 		var uvs = mesh_array[Mesh.ARRAY_TEX_UV]
 		# modify the particular uv with new data 
-		var triInd = triInds[i]
+		var abInd = abInds[i]
 		var previousMat = mesh.surface_get_material(0)
-		uvs[triInd] = uv
+		uvs[abInd] = uv
 		mesh_array[Mesh.ARRAY_TEX_UV] = uvs
 		mesh.surface_remove(0)
 		# re add the data so the uvs get baked in properly
@@ -34,14 +36,14 @@ func remove_all():
 	for t in triangles:
 		t.queue_free()
 	triangles = []
-	triInds = []
+	abInds = []
 	queue_free()
 func remove_mesh():
 	for t in triangles:
 		if t:
 			t.queue_free()
 	triangles = []
-	triInds=[]
+	abInds=[]
 func tri_clicked():
 	included_in_tri = true
 	turn_on()

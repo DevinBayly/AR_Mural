@@ -86,6 +86,8 @@ func load_spatial_anchors_from_file() -> void:
 
 	var anchor_data: Dictionary = json.data
 	if anchor_data.size() > 0:
+		# TODO make this go over keys separately so we can determine which to load with the default scene, or with the mesh rebuilt data
+		# or we rewrite the spatial anchor to be flexible to picking what kind of scene it instantiates
 		spatial_anchor_manager.load_anchors(anchor_data.keys(), anchor_data, OpenXRFbSpatialEntity.STORAGE_LOCAL, true)
 		#var lim = 8
 		#for anchor_key in anchor_data:
@@ -415,8 +417,8 @@ func uv_interior():
 				newUV.y = (v.unprojectedPosition.y - topLeft.unprojectedPosition.y)/(bottomRight.unprojectedPosition.y - topLeft.unprojectedPosition.y )
 				newUV.x = (v.unprojectedPosition.x - topLeft.unprojectedPosition.x)/(bottomRight.unprojectedPosition.x - topLeft.unprojectedPosition.x )
 				v.uv= newUV
-	#
-
+# this variable helps us determine later on which vertices belong in a triangle together
+var triangleId =0
 func create_colored_geometry(verts):
 	var vpos = []
 	for vert in verts:
@@ -457,8 +459,12 @@ func create_colored_geometry(verts):
 	ind =0
 	for v in verts:
 		v.triangles.push_back(m)
-		v.triInds.push_back(ind)
+		v.triList.push_back(triangleId)
+		v.abInds.push_back(ind)
 		ind+=1
+	triangleId+=1
+	# write mesh out after each triangle gets made
+	writeMesh()
 func remove_meshes():
 	var all_verts = get_tree().get_nodes_in_group("verts")
 	for v in all_verts:
@@ -661,3 +667,17 @@ func _on_control_background_drawing(toggle) -> void:
 
 func _on_right_hand_pointer_input_vector_2_changed(name: String, value: Vector2) -> void:
 	pass # Replace with function body.
+
+func writeMesh():
+	# here we need to iterate over the triangles and store the final data as a json
+	var all_verts = get_tree().get_nodes_in_group("verts")
+	var res_list = []
+	for v in all_verts:
+		var v_output = {"uv":[v.uv.x,v.uv.y],"abInds":v.abInds,"triList":v.triList}
+		res_list.push_back(v_output)
+	# TODO make this into a user path later 
+	#var of = FileAccess.open("res://triangle_data.json",FileAccess.WRITE)
+	#of.store_string(JSON.stringify(res_list))
+	print(JSON.stringify(res_list))
+		
+		
