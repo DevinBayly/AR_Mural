@@ -558,7 +558,7 @@ func _on_right_hand_button_pressed(name: String) -> void:
 			if name == "trigger_click" and right_hand_pointer.visible:
 				if right_hand_pointer_raycast.is_colliding():
 					if selected_spatial_anchor_node:
-						var anchor_parent = selected_spatial_anchor_node.get_parent()
+						var anchor_parent = selected_spatial_anchor_node.get_parent().get_parent() # new nesting layers
 						if anchor_parent is XRAnchor3D:
 							spatial_anchor_manager.untrack_anchor(anchor_parent.tracker)
 							# take on the imageId and scale from the removed element to make reposition easier

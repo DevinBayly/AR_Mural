@@ -102,7 +102,7 @@ transform = Transform3D(1, 0, 0, 0, 0.7031716, 0.71102065, 0, -0.71102065, 0.703
 layer_viewport = NodePath("../../QuadViewport")
 sort_order = -1
 enable_hole_punch = true
-quad_size = Vector2(3, 0.75)
+quad_size = Vector2(0.655, 0.445)
 script = ExtResource("5_7mycd")
 controller = NodePath("../XRController3D")
 
@@ -121,7 +121,7 @@ unique_name_in_owner = true
 [node name="QuadViewport" type="SubViewport" parent="." unique_id=2117494402]
 disable_3d = true
 gui_embed_subwindows = true
-size = Vector2i(488, 256)
+size = Vector2i(232, 181)
 render_target_update_mode = 4
 
 [node name="Control" parent="QuadViewport" unique_id=942888997 instance=ExtResource("6_7mycd")]
