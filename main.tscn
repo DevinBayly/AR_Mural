@@ -78,7 +78,7 @@ text = "[Y] Toggle Passthrough
 tracker = &"right_hand"
 
 [node name="ScenePointerMesh" type="MeshInstance3D" parent="XROrigin3D/RightHandPointer" unique_id=849768080]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.6735325)
 mesh = SubResource("BoxMesh_d27jm")
 
 [node name="SceneCollidingMesh" type="MeshInstance3D" parent="XROrigin3D/RightHandPointer" unique_id=304429222]
@@ -108,7 +108,6 @@ controller = NodePath("../XRController3D")
 
 [node name="Pointer" type="MeshInstance3D" parent="XROrigin3D/OpenXRCompositionLayerQuad" unique_id=487464382]
 transform = Transform3D(1, 0, 0, 0, 0.9999997, -8.940697e-08, 0, 8.940697e-08, 0.9999997, 0, 0, 0)
-visible = false
 mesh = SubResource("SphereMesh_272bh")
 
 [node name="XRController3D" type="XRController3D" parent="XROrigin3D" unique_id=628731587]
@@ -116,6 +115,7 @@ tracker = &"right_hand"
 show_when_tracked = true
 
 [node name="RightControllerFbRenderModel" type="OpenXRFbRenderModel" parent="XROrigin3D/XRController3D" unique_id=250800363]
+render_model_type = 1
 unique_name_in_owner = true
 
 [node name="QuadViewport" type="SubViewport" parent="." unique_id=2117494402]

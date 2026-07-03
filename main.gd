@@ -524,9 +524,18 @@ func _on_right_hand_button_pressed(name: String) -> void:
 		print(name)
 		if name == "ax_button":
 			if hovered_element ==  col.get_parent():
+				# unfortunate amounts of looking for parent, 
+				# TODO try to find a work around
+				var anchor_parent = hovered_element.get_parent().get_parent().get_parent()
+				
+
 				# remove the new vert
 				hovered_element.remove_all()
-				# make sure to remove from the global tracking
+				if anchor_parent:
+					# if it's not defined this means we selected a vert before it got spatial anchoring
+					# make sure to remove from the global tracking
+					# need to remove the spatial data for the point also
+					spatial_anchor_manager.untrack_anchor(anchor_parent.tracker)
 			elif col:
 				print("position",col_pos)
 				# maek a vertex there
@@ -582,7 +591,7 @@ func _on_right_hand_button_pressed(name: String) -> void:
 			elif name == "ax_button":
 				# remove the previous anchor
 				if selected_spatial_anchor_node:
-					var anchor_parent: XRAnchor3D = selected_spatial_anchor_node.get_parent()
+					var anchor_parent: XRAnchor3D = selected_spatial_anchor_node.get_parent().get_parent()
 					var prev_position = anchor_parent.global_transform.origin
 					var prev_basis = anchor_parent.basis
 					if anchor_parent is XRAnchor3D:
