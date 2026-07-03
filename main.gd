@@ -8,6 +8,7 @@ var scene_and_spatial_anchors_displayed: bool = true
 var selected_spatial_anchor_node: Node3D = null
 var global_environment_depth_enabled: bool = true
 var vert3d = preload("res://vert_3d.tscn")
+var vert3dAnchor = preload("res://vert_3d_anchor.tscn")
 # regular camera to help with getting 2d locations of elements
 @onready var cam = $Camera3D
 @onready var testicon = preload("res://assets/mural_background.png")
@@ -69,6 +70,7 @@ func _on_openxr_session_begun() -> void:
 			environment_depth.start_environment_depth()
 			print("Environment depth started: ", environment_depth.is_environment_depth_started())
 
+var expectedNumberVerts =0
 
 func load_spatial_anchors_from_file() -> void:
 	var file := FileAccess.open(SPATIAL_ANCHORS_FILE, FileAccess.READ)
@@ -89,6 +91,9 @@ func load_spatial_anchors_from_file() -> void:
 		# TODO make this go over keys separately so we can determine which to load with the default scene, or with the mesh rebuilt data
 		# or we rewrite the spatial anchor to be flexible to picking what kind of scene it instantiates
 		spatial_anchor_manager.load_anchors(anchor_data.keys(), anchor_data, OpenXRFbSpatialEntity.STORAGE_LOCAL, true)
+		for val in anchor_data.values():
+			if val.get("uv"):
+				expectedNumberVerts+=1
 		# by this point all the anchors are in existence, we should be able to just start making triangles
 		# set time outs and chekc back whether there's results in the verts category
 		# hopefully we don't have to try to match number of loaded verts
@@ -117,13 +122,33 @@ func save_spatial_anchors_to_file() -> void:
 	file.store_string(JSON.stringify(anchor_data))
 	file.close()
 
-
+var loadedVerts =0
+var loadingDone = false
 func _on_spatial_anchor_tracked(_anchor_node: XRAnchor3D, _spatial_entity: OpenXRFbSpatialEntity, is_new: bool) -> void:
+	print(_spatial_entity,_anchor_node,_anchor_node.get_children())
+	var child_scene = _anchor_node.get_child(0)
+	if child_scene.name == "spatialanchor":
+		if child_scene.get_child(0).name == "Vert3dAnchor":
+			if not loadingDone:
+				loadedVerts+=1
+
+			if (loadedVerts == expectedNumberVerts) and not loadingDone:
+				loadingDone = true
+				await get_tree().create_timer(1).timeout
+				# go with the regular methods that fire when we add manually also
+				var verts = get_tree().get_nodes_in_group("verts")
+				calc_center()
+				for v in verts:
+					vertCreationFollowUp(v)
+				makeMesh()
+			
+			
+		# wire up the corner registration method
 	if is_new:
 		save_spatial_anchors_to_file()
 		pass
 
-
+	
 func _on_spatial_anchor_untracked(_anchor_node: XRAnchor3D, _spatial_entity: OpenXRFbSpatialEntity) -> void:
 
 	save_spatial_anchors_to_file()
@@ -235,10 +260,10 @@ func position_cam() -> void:
 	var distances = []
 	
 	for v in verts:
-		centroid +=v.position
+		centroid +=v.global_position
 	centroid/=verts.size()
 	for v in verts:
-		var dif = v.position - centroid
+		var dif = v.global_position - centroid
 		distances.push_back([v,dif.length()])
 	distances.sort_custom(custom_sort)
 	# get 3 of the verts and get 2 vectors (center, get vectors going out to each frmo center) 
@@ -254,16 +279,17 @@ func position_cam() -> void:
 		for vo in corners:
 			if v == vo:
 				continue
-			if (v.position - vo.position).length() > max:
+			print(v.global_position - vo.global_position)
+			if (v.global_position - vo.global_position).length() > max:
 				c1 = v
 				c2 = vo
-				max = (v.position - vo.position).length()
-	var center = (c2.position - c1.position)/2 + c1.position
-	var v1 = corners[0].position - center
+				max = (v.global_position - vo.global_position).length()
+	var center = (c2.global_position - c1.global_position)/2 + c1.global_position
+	var v1 = corners[0].global_position - center
 	# pick another but double check that it's not 
 	var v2
 	for oc in corners.slice(1):
-		v2 =  oc.position - center
+		v2 =  oc.global_position - center
 		# check for parallel
 		var check= abs(v2.dot(v1) - (v1.length()*v2.length()) )
 		print(check)
@@ -312,7 +338,7 @@ func calc_center():
 	var total = Vector2(0,0)
 	for v in all_verts:
 		if v.corner:
-			v.unprojectedPosition = cam.unproject_position(v.position)
+			v.unprojectedPosition = cam.unproject_position(v.global_position)
 			total +=v.unprojectedPosition
 	center.x = total.x/4
 	center.y = total.y/4
@@ -357,7 +383,7 @@ func uv_interior():
 
 	for v in all_verts:
 		var newUV = Vector2(0,0)
-		v.unprojectedPosition = cam.unproject_position(v.position)
+		v.unprojectedPosition = cam.unproject_position(v.global_position)
 		var stop = false
 		if not v.corner:
 			print("non corner",v.unprojectedPosition)
@@ -373,11 +399,11 @@ func uv_interior():
 				if abs(dif.x) >abs(dif.y):
 					#likely that the v and other are closer horizontally, 
 					var hO = horizontalOther[i]
-					similarityThresh = abs(other.position.y - hO.position.y)
+					similarityThresh = abs(other.global_position.y - hO.global_position.y)
 				else:
 				 	#likely that the v and other are closer vertically, 
 					var vO = verticalOther[i]
-					similarityThresh = abs(other.position.x - vO.position.x)
+					similarityThresh = abs(other.global_position.x - vO.global_position.x)
 				if abs(dif.x) < similarityThresh:
 					# this v is probably on a vertical edge
 					# get dif from center
@@ -519,6 +545,19 @@ func add_vertex_to_triangle(v):
 		if no_repeats:
 			create_colored_geometry(triangle_vertices)
 		clear_triangles_list()
+	if triangle_vertices.size() > 3:
+		clear_triangles_list()
+		
+func vertCreationFollowUp(new_vert):
+	if get_tree().get_nodes_in_group("verts").size() <=4:
+		new_vert.corner = true
+	if get_tree().get_nodes_in_group("verts").size() ==4:
+		# launch the corner calculation so we don't need to click it
+		print("launching corner uv calculation")
+		calc_center()
+	if get_tree().get_nodes_in_group("verts").size() >4:
+		# run the interior calculation for the point created
+		uv_interior()
 func _on_right_hand_button_pressed(name: String) -> void:
 	if backgroundDrawing:
 		print(name)
@@ -544,15 +583,8 @@ func _on_right_hand_button_pressed(name: String) -> void:
 				new_vert.position = col_pos
 				
 				add_child(new_vert)
-				if get_tree().get_nodes_in_group("verts").size() <=4:
-					new_vert.corner = true
-				if get_tree().get_nodes_in_group("verts").size() ==4:
-					# launch the corner calculation so we don't need to click it
-					print("launching corner uv calculation")
-					calc_center()
-				if get_tree().get_nodes_in_group("verts").size() >4:
-					# run the interior calculation for the point created
-					uv_interior()
+				vertCreationFollowUp(new_vert)
+				
 				# this just makes sure we have a list of the edges
 		elif name == "by_button":
 			# turn the hovered_element on for it's triangle 
@@ -712,7 +744,7 @@ func _on_control_convert() -> void:
 		var anchor_transform = Transform3D()
 		anchor_transform.origin =  v.position
 		anchor_transform.basis = v.basis
-		spatial_anchor_manager.create_anchor(anchor_transform, {"uv":[v.uv.x,v.uv.y],"abInds":v.abInds,"triList":v.triList})
+		spatial_anchor_manager.create_anchor(anchor_transform, {"uv":[v.uv.x,v.uv.y],"corner":v.corner,"abInds":v.abInds,"triList":v.triList})
 	pass # Replace with function body.
 
 func makeMesh():

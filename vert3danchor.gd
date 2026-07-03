@@ -1,5 +1,5 @@
 extends Node3D
-
+signal registerCorner
 var vert3d = preload("res://vert_3d.tscn")
 
 func setup_scene(spatial_entity: OpenXRFbSpatialEntity) -> void:
@@ -10,6 +10,9 @@ func setup_scene(spatial_entity: OpenXRFbSpatialEntity) -> void:
 	v.uv = Vector2(data.get("uv")[0],data.get("uv")[1])
 	v.triList = data.get("triList")
 	v.abInds = data.get("abInds")
+	v.corner = data.get("corner")
+	if v.corner:
+		registerCorner.emit(v)
 	add_child(v)
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
