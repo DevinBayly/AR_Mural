@@ -36,6 +36,7 @@ func remove_all():
 	for t in triangles:
 		t.queue_free()
 	triangles = []
+	triList =[]
 	abInds = []
 	queue_free()
 func remove_mesh():
@@ -44,6 +45,7 @@ func remove_mesh():
 			t.queue_free()
 	triangles = []
 	abInds=[]
+	triList=[]
 func tri_clicked():
 	included_in_tri = true
 	turn_on()
