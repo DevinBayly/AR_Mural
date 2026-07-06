@@ -5,6 +5,7 @@ signal orderSliderUpdate
 signal makeMesh
 signal imageSelected
 signal backgroundDrawing
+signal clearAll
 signal convert
 signal removeMesh
 # signal that the main program uses to determine which animation to place on next real trigger click in the background
@@ -75,4 +76,9 @@ func _on_convert_pressed() -> void:
 
 func _on_make_mesh_pressed() -> void:
 	makeMesh.emit()
+	pass # Replace with function body.
+
+
+func _on_clear_pressed() -> void:
+	clearAll.emit()
 	pass # Replace with function body.

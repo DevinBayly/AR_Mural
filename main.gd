@@ -95,7 +95,7 @@ func load_spatial_anchors_from_file() -> void:
 			if val.get("uv"):
 				expectedNumberVerts+=1
 		# by this point all the anchors are in existence, we should be able to just start making triangles
-		# set time outs and chekc back whether there's results in the verts category
+		# set time outs and chekc back whethetimeoutr there's results in the verts category
 		# hopefully we don't have to try to match number of loaded verts
 		
 		
@@ -526,7 +526,11 @@ func _on_left_hand_button_pressed(name):
 		scene_manager.request_scene_capture()
 # used to help anchor pick which image it will be displaying
 var imageId=0
-var imageScale = 1
+var imageScale = 1:
+	set(value):
+		print("value has changed, was",imageScale,"becoming ",value)
+		imageScale = value
+	
 var spritePriority=2
 var on_menu = false
 func add_vertex_to_triangle(v):
@@ -605,6 +609,7 @@ func _on_right_hand_button_pressed(name: String) -> void:
 							# take on the imageId and scale from the removed element to make reposition easier
 							imageId = selected_spatial_anchor_node.imageId
 							imageScale = selected_spatial_anchor_node.imageScale
+							print(imageScale)
 							# decrease the imageId because we removed that image
 					else:
 						var anchor_transform := Transform3D()
@@ -771,7 +776,30 @@ func makeMesh():
 	for key in vertDict:
 		var vertices = vertDict.get(key)
 		for v in vertices:
+			if v == null:
+				print("stop here")
 			add_vertex_to_triangle(v)
 func _on_control_make_mesh() -> void:
 	makeMesh()
+	pass # Replace with function body.
+
+
+func _on_control_clear_all() -> void:
+	# attempt to remove all spatial background data so we can start from scratch
+	var verts = get_tree().get_nodes_in_group("verts")
+	for v in verts:
+		if v.get_parent().name == "Vert3dAnchor":
+			#this vert has a spatial anchor as parent
+			# unregister first
+			var anchor_parent: XRAnchor3D = v.get_parent().get_parent().get_parent()
+			var prev_position = anchor_parent.global_transform.origin
+			var prev_basis = anchor_parent.basis
+			if anchor_parent is XRAnchor3D:
+				spatial_anchor_manager.untrack_anchor(anchor_parent.tracker)
+			else:
+				print("got wrong name for the anchor parent")
+		else:
+			# its a regular vertex
+			v.remove_all()
+	# iterate over them, if their parent's parent is a spatial node then we use it's id to untrack before queue free
 	pass # Replace with function body.
