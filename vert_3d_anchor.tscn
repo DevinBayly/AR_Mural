@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bnjc8tpfbs8hy"]
 
-[ext_resource type="Script" uid="uid://cwsi02jcysabp" path="res://vert3danchor.gd" id="1_yl50w"]
+[ext_resource type="Script" uid="uid://cprm2jsbjpw81" path="res://vert3danchor.gd" id="1_yl50w"]
+[ext_resource type="PackedScene" uid="uid://uio1i5be8av0" path="res://vert_3d.tscn" id="2_d5xyt"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dykg1"]
 transparency = 1
@@ -13,4 +14,7 @@ material = SubResource("StandardMaterial3D_dykg1")
 script = ExtResource("1_yl50w")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1592487439]
+transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0, 0, 0)
 mesh = SubResource("BoxMesh_0sc5c")
+
+[node name="vert_3d" parent="." unique_id=1370350870 instance=ExtResource("2_d5xyt")]
