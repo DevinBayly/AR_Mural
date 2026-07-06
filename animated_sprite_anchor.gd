@@ -8,11 +8,11 @@ var spritepriority =0
 var selected := false
 # load all the different elements
 var center = preload("res://center_sprites.tres")
-var agave = preload("res://agave_sprite.tres")
-var pink = preload("res://pink_cactus_sprites.tres")
+var agave = preload("res://agave_sprites.tres")
+var pink = preload("res://pink_sprites.tres")
 var ocotillo = preload("res://ocotillo_sprites.tres")
 var man = preload("res://man_sprites.tres")
-var roundcact = preload("res://round_cactus_sprites.tres")
+var roundcact = preload("res://round_sprites.tres")
 var woman = preload("res://woman_sprites.tres")
 var spikes = preload("res://spikey_sprites.tres")
 var pulse = preload("res://pulse_icon.tres")
