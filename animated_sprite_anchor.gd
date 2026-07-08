@@ -7,16 +7,34 @@ var imageId: int
 var spritepriority =0
 var selected := false
 # load all the different elements
-var center = preload("res://center_sprites.tres")
-var agave = preload("res://agave_sprites.tres")
-var pink = preload("res://pink_sprites.tres")
-var ocotillo = preload("res://ocotillo_sprites.tres")
-var man = preload("res://man_sprites.tres")
-var roundcact = preload("res://round_sprites.tres")
-var woman = preload("res://woman_sprites.tres")
-var spikes = preload("res://spikey_sprites.tres")
-var pulse = preload("res://pulse_icon.tres")
+var center
+var agave 
+var pink
+var ocotillo 
+var man 
+var roundcact
+var woman
+var spikes
+var pulse
 
+func _ready() -> void:
+	var dirCheck = DirAccess.open("user://")
+	if dirCheck.file_exists("user://sprite_frames"):
+		print("yes the pck file is here")
+	var success = ProjectSettings.load_resource_pack("user://sprite_frames.pck")
+	print("success was ",success)
+	if success:
+		var test = load("res://agave_sprites.tres")
+		print("we loaded the pack",test)
+		center = load("res://center_sprites.tres")
+		agave = load("res://agave_sprites.tres")
+		pink = load("res://pink_sprites.tres")
+		ocotillo = load("res://ocotillo_sprites.tres")
+		man = load("res://man_sprites.tres")
+		roundcact = load("res://round_sprites.tres")
+		woman = load("res://woman_sprites.tres")
+		spikes = load("res://spikey_sprites.tres")
+		pulse = load("res://pulse_icon.tres")
 
 @onready var animSprit = $AnimatedSprite3D
 	

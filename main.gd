@@ -46,6 +46,12 @@ const COLORS = [
 
 
 func _ready():
+	# import the pck file data
+	var success = ProjectSettings.load_resource_pack("res://sprite_frames.pck")
+
+	if success:
+		var test = load("res://agave_sprites.tres")
+		print("we loaded the pack",test)
 	super._ready()
 	if xr_interface and xr_interface.is_initialized():
 		xr_interface.session_begun.connect(_on_openxr_session_begun)
