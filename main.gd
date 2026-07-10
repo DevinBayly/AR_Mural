@@ -563,6 +563,8 @@ func vertCreationFollowUp(new_vert):
 		# run the interior calculation for the point created
 		uv_interior()
 func _on_right_hand_button_pressed(name: String) -> void:
+	if name == "grip_click":
+		scene_manager.request_scene_capture()
 	if backgroundDrawing:
 		print(name)
 		if name == "ax_button":

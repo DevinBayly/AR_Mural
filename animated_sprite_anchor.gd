@@ -7,21 +7,12 @@ var imageId: int
 var spritepriority =0
 var selected := false
 # load all the different elements
-var center = preload("res://center_sprites.tres")
-var agave = preload("res://agave_sprites.tres")
-var pink = preload("res://pink_sprites.tres")
-var ocotillo = preload("res://ocotillo_sprites.tres")
-var man = preload("res://man_sprites.tres")
-var roundcact = preload("res://round_sprites.tres")
-var woman = preload("res://woman_sprites.tres")
-var spikes = preload("res://spikey_sprites.tres")
 var pulse = preload("res://pulse_icon.tres")
-
 
 @onready var animSprit = $AnimatedSprite3D
 	
 var triggered = false
-var sprites_list = [center,man,woman,spikes,roundcact,pink,agave,ocotillo]
+var sprites_list=["center","man","woman","spikes","roundcact","pink","agave","ocotillo"]
 func setup_scene(spatial_entity: OpenXRFbSpatialEntity) -> void:
 	
 	var data: Dictionary = spatial_entity.custom_data
@@ -59,7 +50,8 @@ func turnOnAnimation():
 	if triggered ==false:
 		if imageId == 8:
 			return
-		animSprit.sprite_frames = sprites_list[imageId]
+		var frames = load("res://"+sprites_list[imageId]+"_sprites.tres")
+		animSprit.sprite_frames = frames
 		animSprit.scale = Vector3(imageScale,imageScale,imageScale)
 		animSprit.render_priority = spritepriority
 		animSprit.play()

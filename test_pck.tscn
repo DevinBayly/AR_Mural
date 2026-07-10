@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://ccuj4g8nnyprx"]
+
+[ext_resource type="Script" uid="uid://cvyxrfti6g8vu" path="res://test_pck.gd" id="1_mnwut"]
+
+[node name="test_pck" type="Node3D" unique_id=197617233]
+script = ExtResource("1_mnwut")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1099300304]
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="." unique_id=921560145]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.240855)
