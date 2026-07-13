@@ -17,8 +17,11 @@ func _run():
 			# go forward with sprite creation
 			var sprite_frames = SpriteFrames.new()
 			var images = ResourceLoader.list_directory("res://sprites/"+entry)
-			
-			for im in images.slice(0,200):
+			var img_number =50
+			if entry.contains("center"):
+				img_number = 250
+			print("entry ",entry," number", img_number)
+			for im in images.slice(0,img_number):
 				var texture =load("res://sprites/"+entry+im)
 				sprite_frames.add_frame("default",texture)
 			# remove the previous tres
