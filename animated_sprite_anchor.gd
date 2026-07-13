@@ -45,20 +45,36 @@ func setPriority(newOrder):
 	if animSprit:
 		spritepriority = newOrder
 		animSprit.render_priority = spritepriority
+var loading=false
 func turnOnAnimation():
 	
 	if triggered ==false:
 		if imageId == 8:
 			return
-		var frames = load("res://"+sprites_list[imageId]+"_sprites.tres")
+		# switch to loading with thread to keep main going
+		var result = ResourceLoader.load_threaded_request("res://"+sprites_list[imageId]+"_sprites.tres")
+		print("thread loading res",result)
+		if result ==OK:
+			loading=true
+	triggered=true
+
+var timeout =.1
+var loadComplete = false
+func _process(delta: float) -> void:
+	if triggered and loading:
+		var progress =[0]
+		ResourceLoader.load_threaded_get_status("res://"+sprites_list[imageId]+"_sprites.tres",progress)
+		print("loading progress,",progress[0])
+		if progress[0] ==1:
+			loading = false
+			
+	if triggered and not loading and not loadComplete:
+		var frames = ResourceLoader.load_threaded_get("res://"+sprites_list[imageId]+"_sprites.tres")
 		animSprit.sprite_frames = frames
 		animSprit.scale = Vector3(imageScale,imageScale,imageScale)
 		animSprit.render_priority = spritepriority
 		animSprit.play()
-	triggered=true
-
-var timeout =.1
-func _process(delta: float) -> void:	
+		loadComplete = true	
 	if timeout<0:
 		if imageId ==8:
 			imageScale += scaledelta
