@@ -52,7 +52,7 @@ func _ready():
 
 	for render_model in [%LeftControllerFbRenderModel, %RightControllerFbRenderModel]:
 		render_model.openxr_fb_render_model_loaded.connect(_on_openxr_fb_render_model_loaded.bind(render_model))
-	
+
 
 func _on_openxr_session_begun() -> void:
 	if _setup:
@@ -221,13 +221,22 @@ func _physics_process(_delta: float) -> void:
 					#print("highlighting sphere")
 					# use the method on the parent to highlight the element
 					hovered_element = col.get_parent()
+			# this checks for collision with animation element not background
 			if collider and collider.get_collision_layer_value(3):
 				selected_spatial_anchor_node = collider
 				selected_spatial_anchor_node.turnOnAnimation()
-				
+				selected_spatial_anchor_node.modulate_color()
 			else:
+				if previous_selected_spatial_anchor_node and  previous_selected_spatial_anchor_node.get_collision_layer_value(3):
+					# optional if we want points to unload themselves after interaction
+					
+					#selected_spatial_anchor_node.turnOffAnimation()
+					if previous_selected_spatial_anchor_node != last_selected_node:
+						selected_spatial_anchor_node.unmodulate_color()
 				selected_spatial_anchor_node = null
 		else:
+			
+
 			scene_pointer_mesh.mesh.size.z = 5
 			scene_pointer_mesh.position.z = -2.5
 			selected_spatial_anchor_node = null
@@ -648,6 +657,9 @@ func _on_right_hand_button_pressed(name: String) -> void:
 			elif name == "by_button":
 				if selected_spatial_anchor_node:
 					last_selected_node = selected_spatial_anchor_node
+				else:
+					last_selected_node = null
+					
 				
 
 

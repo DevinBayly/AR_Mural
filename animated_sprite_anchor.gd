@@ -57,7 +57,27 @@ func turnOnAnimation():
 		if result ==OK:
 			loading=true
 	triggered=true
+	
+func turnOffAnimation():
+	if triggered ==true:
+		if imageId == 8:
+			return
+		# switch back to the pulse icon
+		animSprit.sprite_frames = pulse
+		animSprit.render_priority = 4
+		
+		animSprit.play()
+		# reset the loading variables	
+		loading=false
+		loadComplete = false
+		
+	triggered=false
 
+func modulate_color():
+	animSprit.modulate = Color(1.0, 0.75, 0.75, 0.902)
+
+func unmodulate_color():
+	animSprit.modulate = Color(1,1,1,1)
 var timeout =.1
 var loadComplete = false
 func _process(delta: float) -> void:
