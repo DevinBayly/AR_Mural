@@ -817,3 +817,25 @@ func _on_control_clear_all() -> void:
 			v.remove_all()
 	# iterate over them, if their parent's parent is a spatial node then we use it's id to untrack before queue free
 	pass # Replace with function body.
+
+
+func _on_control_download_requested() -> void:
+	$unzipper.start()
+	pass # Replace with function body.
+
+
+func _on_unzipper_unzip_complete() -> void:
+	var dir= DirAccess.open("user://woman/")
+	var sframes = SpriteFrames.new()
+	var i=0
+	for file in dir.get_files():
+		print("creating frame,",i)
+		if file.contains("import"):
+			continue
+		var img = Image.load_from_file("user://woman/"+file)
+		var texture = ImageTexture.create_from_image(img)
+		sframes.add_frame("default",texture,1.0,i)
+		i+=1
+	$Sprite3D.frames = sframes
+	$Sprite3D.play()
+	pass # Replace with function body.

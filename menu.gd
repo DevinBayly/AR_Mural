@@ -8,6 +8,7 @@ signal backgroundDrawing
 signal clearAll
 signal convert
 signal removeMesh
+signal download_requested
 # signal that the main program uses to determine which animation to place on next real trigger click in the background
 signal animSelected
 @onready var orderSlider = $BoxContainer/HBoxContainer2/orderSlider
@@ -81,4 +82,14 @@ func _on_make_mesh_pressed() -> void:
 
 func _on_clear_pressed() -> void:
 	clearAll.emit()
+	pass # Replace with function body.
+
+
+func _on_download_checkbox_toggled(toggled_on: bool) -> void:
+	
+	pass # Replace with function body.
+
+
+func _on_download_zip_pressed() -> void:
+	download_requested.emit()
 	pass # Replace with function body.

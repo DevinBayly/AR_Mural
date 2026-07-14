@@ -6,6 +6,8 @@
 [ext_resource type="Script" uid="uid://crq8a8658a8ey" path="res://open_xr_composition_layer_quad.gd" id="5_7mycd"]
 [ext_resource type="PackedScene" uid="uid://dsfd7xrm6o50p" path="res://spatial_anchor.tscn" id="5_g7mio"]
 [ext_resource type="PackedScene" uid="uid://cfbc7fxw6gjqr" path="res://menu.tscn" id="6_7mycd"]
+[ext_resource type="PackedScene" uid="uid://dteb4botblx1a" path="res://unzipper.tscn" id="7_272bh"]
+[ext_resource type="Script" uid="uid://b2bvwqmhwtqdv" path="res://animated_sprite_3d.gd" id="8_5vw27"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_0x6cv"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -130,6 +132,12 @@ render_target_update_mode = 4
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.77302325, 1.0610962, -1.2410936)
 projection = 1
 
+[node name="unzipper" parent="." unique_id=202709950 instance=ExtResource("7_272bh")]
+
+[node name="Sprite3D" type="AnimatedSprite3D" parent="." unique_id=271908157]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.92081845, -1.4670519)
+script = ExtResource("8_5vw27")
+
 [connection signal="button_pressed" from="XROrigin3D/LeftHand" to="." method="_on_left_hand_button_pressed"]
 [connection signal="openxr_fb_scene_capture_completed" from="XROrigin3D/OpenXRFbSceneManager" to="." method="_on_scene_manager_scene_capture_completed"]
 [connection signal="openxr_fb_scene_data_missing" from="XROrigin3D/OpenXRFbSceneManager" to="." method="_on_scene_manager_scene_data_missing"]
@@ -142,7 +150,9 @@ projection = 1
 [connection signal="backgroundDrawing" from="QuadViewport/Control" to="." method="_on_control_background_drawing"]
 [connection signal="clearAll" from="QuadViewport/Control" to="." method="_on_control_clear_all"]
 [connection signal="convert" from="QuadViewport/Control" to="." method="_on_control_convert"]
+[connection signal="download_requested" from="QuadViewport/Control" to="." method="_on_control_download_requested"]
 [connection signal="makeMesh" from="QuadViewport/Control" to="." method="_on_control_make_mesh"]
 [connection signal="orderSliderUpdate" from="QuadViewport/Control" to="." method="_on_control_order_slider_update"]
 [connection signal="removeMesh" from="QuadViewport/Control" to="." method="remove_meshes"]
 [connection signal="scaleSliderUpdate" from="QuadViewport/Control" to="." method="_on_control_scale_slider_update"]
+[connection signal="unzip_complete" from="unzipper" to="." method="_on_unzipper_unzip_complete"]
