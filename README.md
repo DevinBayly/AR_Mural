@@ -1,12 +1,30 @@
-# Meta Scene Sample
+# Making Animated Anchored Mural Elements
 
-> Note: this project requires Godot 4.3 or later
+This document is aimed at explaining some of the existing interactions available in the app. There is more development on the way that will support adding in new images, but for now we have an already installed set which will work in the space
 
-This is a sample project demonstrating the Meta scene and spatial anchor features supported by the Godot OpenXR Vendors plugin.
-See the [Meta Scene Manager](https://godotvr.github.io/godot_openxr_vendors/manual/meta/scene_manager.html)
-or [Meta Spatial Anchors](https://godotvr.github.io/godot_openxr_vendors/manual/meta/spatial_anchors.html)
-tutorial docs for detailed walkthroughs of these features.
+## General process
 
-# Screenshots
+An animated layer is created in the following steps,
+* For each mural element
+    * Place animated element over their corresponding static real world element
+    * Resize/Reposition to suit 
+    * "Anchor" the element to ensure it's placement stays when someone else loads the experience later
+* Generate a virtual background to prevent confusion
+    * place the 4 furthest points (making a bounding box)
+    * add the intermediate points that help "cut out" real world objects you don't want masked
+    * select 3 points to make a "triangle" of virtual background 
+    * repeat until the rest of the mural is hidden
+    * modify any points who's texture looks incorrect
+    * "Anchor" the points  so it will automatically appear on reload
 
-![Screenshot](screenshots/meta_sceen_screenshot_01.png)
+The rest of the document exists to explain "How" to perform these steps in the application with the right quest 3 controller
+
+## Types of interaction
+
+### Placing Elements
+
+
+
+### 
+
+## Tips
